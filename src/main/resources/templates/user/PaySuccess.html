@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.springframework.org/schema/mvc">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport">
+    <title>智慧停车</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="/user/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/user/css/style.css">
+    <script src='/user/js/jquery.min.js'></script>
+    <script src="/user/js/vue.js" type="text/javascript"></script>
+    <script src="/js/axios.min.js" type="text/javascript"></script>
+    <!--vue-Element-->
+    <link href="/element/index.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/element/index.js"></script>
+
+    <script>
+        // class
+        !function (navigator) {
+            let userAgent = navigator.userAgent;
+            documentElement = document.documentElement;
+            if (userAgent.match(/micromessenger\/5/gi)) {
+                documentElement.className += " mobile wx_mobile wx_mobile_5";
+            } else if (userAgent.match(/micromessenger/gi)) {
+                documentElement.className += " mobile wx_mobile";
+            } else if (userAgent.match(/ucbrowser/gi)) {
+                documentElement.className += " mobile uc_mobile";
+            } else if (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())) {
+                documentElement.className += " mobile";
+            } else if (userAgent.toLowerCase().match(/msie/gi) && (parseFloat(userAgent.toLowerCase().match(/msie ([0-9]{1,}[\.0-9]{0,})/i)[1] || 999) < 9)) {
+                documentElement.className += " pc pc-ie pc-ie8";
+            } else if (userAgent.toLowerCase().match(/msie/gi) || navigator.msPointerEnabled || navigator.pointerEnabled) {
+                documentElement.className += " pc pc-ie";
+            } else {
+                documentElement.className += " pc";
+            }
+        }(navigator);
+        // meta
+        !function (userAgent) {
+            let screen_w = parseInt(window.screen.width),
+                scale = screen_w / 1242;
+            if (/Android (\d+\.\d+)/.test(userAgent)) {
+                let version = parseFloat(RegExp.$1);
+                document.write(version > 2.3 ? '<meta name="viewport" content="width=1242, minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">' : '<meta name="viewport" content="width=1242,target-densitydpi=device-dpi">');
+            } else {
+                document.write('<meta name="viewport" content="width=1242, user-scalable=no, target-densitydpi=device-dpi">');
+            }
+        }(navigator.userAgent);
+    </script>
+    <style type="text/css">
+        [v-cloak] {
+            display: none !important;
+        }
+
+        .imgUrl2 {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            bottom: -50px;
+        }
+
+        .imgA {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .imgA img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="content" v-cloak v-loading='loading'>
+    <div class="box">
+        <div class="sucText"><span class="p">支付成功！</span></div>
+    </div>
+    <div class="stopCarMsg">
+        <div class="parkPlace"><span class="p">{{successInfo.parkName}}</span></div>
+        <ul>
+            <li>
+                <div class="itemName">进场时间</div>
+                <div class="itemText">{{successInfo.entryTime}}</div>
+            </li>
+            <li>
+                <div class="itemName">支付时间</div>
+                <div class="itemText">{{successInfo.payTime}}</div>
+            </li>
+            <li>
+                <div class="itemName">停车时间</div>
+                <div class="itemText">{{successInfo.stopTime | hours}}</div>
+            </li>
+            <li>
+                <div class="itemName">停车费用</div>
+                <div class="itemText">{{successInfo.payable|moneyFilter}}元</div>
+            </li>
+            <li>
+                <div class="itemName">实际支付</div>
+                <div class="itemText">{{successInfo.orderAmt|moneyFilter}}元</div>
+            </li>
+            <li>
+                <div class="itemName">车牌号码</div>
+                <div class="itemText">{{successInfo.plateNo}}</div>
+            </li>
+        </ul>
+    </div>
+    <div class="box">
+        <div class="carNum cuTime">
+            <span>{{minute}}:{{second}}</span>
+            <span></span>
+        </div>
+        <div class="cutdownTip">请在规定时间内驶离停车场，否则会重新计费</div>
+        <!--<div class="submitBtn orgbtn">-->
+        <!--<button type="submit">自助开票</button>-->
+        <!--<a :href=`/user/pay/search?${successInfo.merId}`><button type="submit">返回首页</button></a>-->
+        <!--</div>-->
+        <div id="divImg" class="cutdownTip imgUrl2">
+            <a class="imgA" :href="adUrl"><img :src="merAdvanceLogoUrl" alt=""></a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    var orderNo = [[${orderNo}]]
+    var storage = window.localStorage;
+    new Vue({
+        el: '#content',
+        data() {
+            return {
+                successInfo: {},
+                minutes: '',
+                seconds: 0,
+                merAdvanceLogoUrl: '',
+                templateInfo: {},
+                orderNo: "",
+                loading: true,
+                adUrl: '',
+                merId: '',
+            }
+
+        },
+        created() {
+            var that = this;
+            this.orderNo = orderNo;
+            var params = JSON.stringify({})
+            $.ajax({
+                url: '/merchant/car/successInfo/' + this.orderNo,
+                type: 'get',
+                success: function (params) {
+                    that.successInfo = params.data;
+                    that.merId = params.data.merId;
+                    if (storage.beginTime) {
+                        var endTime = new Date();
+                        var times = endTime.getTime() - (new Date(storage.beginTime)).getTime();
+                        var minute = Math.floor(times / 1000 / 60);
+                        var second = Math.floor(times / 1000 % 60);
+                        that.minutes = storage.minutes - minute <= 0 ? 0 : storage.minutes - minute;
+                        that.seconds = storage.seconds - second <= 0 ? 0 : storage.seconds - second;
+                        if (that.minutes == 0 && that.seconds == 0) {
+                            storage.removeItem('beginTime');
+                        }
+                    } else {
+                        that.minutes = 0 ? 0 : that.successInfo.countdownTime;
+                        //that.timer();
+                    }
+                    that.loadImg(that.merId);
+                }
+            }),
+            this.loading = false;
+        },
+        methods: {
+            num(n) {
+                return n < 10 ? '0' + n : '' + n
+            },
+            timer() {
+                var _this = this
+                var time = window.setInterval(function () {
+                    _this.storeCache(_this.minutes, _this.seconds)
+                    if (_this.seconds === 0 && _this.minutes !== 0) {
+                        _this.seconds = 59
+                        _this.minutes -= 1
+                    } else if (_this.minutes === 0 && _this.seconds === 0) {
+                        storage.removeItem('beginTime');
+                        _this.seconds = 0
+                        window.clearInterval(time)
+                    } else {
+                        _this.seconds -= 1
+                    }
+                }, 1000)
+            },
+            //浏览器存储变量
+            storeCache(minutes, seconds) {
+                storage = window.localStorage;
+                //写入a字段
+                //storage["plateId"]=plateId;
+                storage.minutes = minutes;
+                storage.seconds = seconds;
+                storage.beginTime = new Date();
+            },
+            //页面模板图片加载
+            loadImg(merId) {
+                var that = this;
+                var url = '/merchant/Advertisement/enList/' + merId;
+                axios.get(url)
+                    .then(function (res) {
+                        that.adUrl = res.data.data.templateUrl;
+                        let data1 = JSON.stringify({"filename": res.data.data.templateImg})
+                        //工具接口SHOWIMG
+                        var url = '/sys/util/showimg';
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('post', url, true);
+                        xhr.responseType = "blob";
+                        xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                        xhr.onload = function () {
+                            if (this.status == 200) {
+                                var blob = this.response;
+                                that.merAdvanceLogoUrl = window.URL.createObjectURL(blob)
+                            }
+                        }
+                        xhr.send(data1);
+
+                    })
+                    .catch(function (res) {
+                        $("#divImg").hide();
+                    });
+
+            }
+        },
+        mounted() {
+            this.timer()
+        },
+        watch: {
+            second: {
+                handler(newVal) {
+                    this.num(newVal)
+                }
+            },
+            minute: {
+                handler(newVal) {
+                    this.num(newVal)
+                }
+            }
+        },
+
+        computed: {
+
+            second: function () {
+                return this.num(this.seconds);
+            },
+            minute: function () {
+                return this.num(this.minutes);
+            }
+        },
+        filters: {
+            hours(val) {
+                return val / 60 >= 1 ? Math.floor(val / 60) + "时" + val % 60 + "分" : val + "分";
+            },
+            moneyFilter(val) {
+                return val / 100;
+            }
+        },
+    })
+</script>
+</body>
+</html>

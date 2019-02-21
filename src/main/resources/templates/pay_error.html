@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title></title>
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+      <link rel="stylesheet" th:href="@{/css/reset.css}" href="../css/reset.css"/>
+      <link rel="stylesheet" th:href="@{/css/sm.css}" href="../css/sm.css"/>
+      <link rel="stylesheet" th:href="@{/css/jft.css}" href="../css/jft.css"/>
+      <script th:src="@{/js/zepto.min.js}" src="../js/zepto.min.js"></script>
+      <script th:src="@{/js/sm.js}" src="../js/sm.js"></script>
+      <script th:src="@{/js/iconfont-add.js}" src="../js/iconfont.js"></script>
+      <style type="text/css">
+          [v-cloak] {
+              display:none !important;
+          }
+      </style>
+  </head>
+<body>
+<div class="page-group">
+    <div class="page page-current">
+      <div class="content native-scroll">
+          <div class="center_block paySucess">
+              <svg class="icon icon2" aria-hidden="true">
+                <use xlink:href="#icon-cha"></use>
+              </svg>
+              <p>支付失败</p>
+          </div>
+          <div class="copyright"  th:include="copyright :: copyright"></div>
+      </div>
+    </div>
+</div>
+</body>
+</html>

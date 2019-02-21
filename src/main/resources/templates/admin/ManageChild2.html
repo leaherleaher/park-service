@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>营销管理</title>
+    <link href="/admin/css/reset.css" type="text/css" rel="stylesheet"/>
+    <link href="/admin/css/layout.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/admin/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/admin/js/vue.js"></script>
+    <!--vue-Element-->
+    <link href="/element/index.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/element/index.js"></script>
+    <style type="text/css">
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<section id="content" v-cloak>
+    <section id="boxRight" class="boxRight">
+        <div class="boxRight_tit f1 borderb">营销管理>广告类型>广告类型增添</div>
+        <article class="boxRightCon">
+            <ul class="sel_mod">
+                <li>
+                    <span class="name sel_th2">广告类型：</span>
+                    <div class='selectSet'>
+                        <input type="text" value="支付广告完成" placeholder='支付广告完成' v-model='updataMessage.tempCategoryDesc'>
+                    </div>
+                </li>
+                <li>
+                    <span class="name sel_th2">状态：</span>
+                    <span class="radioBox"><input value="1" name="radio" type="radio" id="radio1" checked="checked"
+                                                  v-model='updataMessage.templateStatus'/><label for="radio1">启用</label></span>
+                    <span class="radioBox"><input value="0" name="radio" type="radio" id="radio2"
+                                                  v-model='updataMessage.templateStatus'/><label for="radio2">禁用</label></span>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </article>
+        <div class="vip_btn center">
+            <div class="btn fabu_btn" v-if='show1'><a @click='save'>保存</a></div>
+            <div class="btn fabu_btn" v-if='show2'><a @click='updatas'>更新</a></div>
+            <div class="btn fabu_btn" v-if='show3'><a @click='removes'>删除</a></div>
+            <!--<div class="btn save_btn"><a class='close'>取消</a></div>-->
+        </div>
+    </section>
+</section>
+<script type='text/javascript'>
+    parent.$('#myContent').css('height', parent.$('.content').height())
+    new Vue({
+        el: '#content',
+        data() {
+            return {
+                show1: false,
+                show2: false,
+                show3: false,
+                type: true,
+                changeGray: '',
+                add: [],
+                stora: {},
+                remove: {},
+                updata: {},
+                TranId: '',
+                id: '',
+                updataMessage: {
+                    "id":'',
+                    "tempCategoryCode":'',
+                    "tempCategoryDesc": '',
+                    "templateStatus": ''
+                }
+            }
+        },
+        methods: {
+            save() {
+                var that = this;
+                var params = JSON.stringify(this.updataMessage)
+                $.ajax({
+                    url: '/merchant/Advertisement/category/add',
+                    type: 'post',
+                    contentType: 'application/json;charset=uft-8',
+                    data: params,
+                    statusCode: {
+                        404: function () {
+                            alert('网络错误') //报错提示
+                        }
+                    },
+                    success: function (params) {
+                        //that.add = params
+                        that.$message({
+                            showClose: true,
+                            message: '保存成功',
+                            type: 'success'
+                        });
+                        window.location.href = '/merchant/market/admanage'
+                    },
+                    error: function () {
+                        that.$message({
+                            showClose: true,
+                            message: '保存失败',
+                            type: 'error'
+                        });
+                    }
+                })
+            },
+            updatas() {
+                var that = this;
+                var paramData = this.updataMessage;
+                var param = JSON.stringify(paramData)
+                $.ajax({
+                    url: '/merchant/Advertisement/category/update',
+                    type: 'patch',
+                    contentType: 'application/json;charset=uft-8',
+                    data: param,
+                    success: function (param) {
+                        that.updata = param;
+                        that.$message({
+                            showClose: true,
+                            message: '更新成功',
+                            type: 'success'
+                        });
+                        window.location.href = '/merchant/market/admanage'
+                    },
+                    error: function () {
+                        that.$message({
+                            showClose: true,
+                            message: '更新失败',
+                            type: 'error'
+                        });
+                    }
+                })
+            },
+            ManageType() {
+                if (this.type === true) {
+                    this.type = false
+                } else {
+                    this.type = true
+                }
+            },
+            change(num) {
+                this.changeGray = num
+            },
+        },
+        created() {
+            var that = this;
+            var url = location.search
+            that.urlString = url.split('?=')[1]
+            var arr = that.urlString.split("&");
+            that.id=arr[0];
+            that.opra = arr[1];
+            if (that.urlString == "1") {
+                that.show1 = true
+            } else if (that.opra == "2") {
+                that.show2 = true
+                //表示更新 则初始化数据
+                $.ajax({
+                    url: '/merchant/Advertisement/category/info/' + that.id,
+                    type: 'get',
+                    success: function (res) {
+                        that.updataMessage = res.data;
+                    },
+                    error: function () {
+                        that.$message({
+                            showClose: true,
+                            message: '数据初始化失败',
+                            type: 'error'
+                        });
+                    }
+                });
+            }
+        }
+    })
+</script>
+</body>
+<style>
+    .nextselect {
+        font-size: 14px;
+    }
+
+    .nextselect2 {
+        background: #EEEEEE
+    }
+
+    .active {
+        background: #EEEEEE
+    }
+
+    .blockText {
+        display: block;
+        width: 130px;
+        height: 37.6px;
+        margin: auto;
+    }
+
+    .selectSet {
+        position: relative;
+        width: 159px;
+        height: 23.2px;
+    }
+
+    .selectSet > input {
+        text-align: center;
+    }
+
+    .boxRightCon {
+        display: flex;
+        justify-content: center;
+    }
+
+    .save_btn > a {
+        background: #DDDDDD
+    }
+
+    .write {
+        width: 312px;
+    }
+
+    .sel_mod {
+        overflow: none;
+    }
+
+    .sel_mod > li {
+        display: flex;
+        margin: 0 0 48px 0;
+    }
+
+    .sel_mod > li:nth-child(2) {
+        margin: 0 0 75px 0;
+    }
+
+    .changeColor {
+        background: #169BD5 !important;
+    }
+
+    .name {
+        display: block;
+        width: 100px;
+    }
+
+    .photo {
+        display: block;
+        width: 300px;
+        height: 150px;
+        background: rgba(233, 233, 233, 0.6);
+        color: #A399A3;
+        text-align: center;
+        line-height: 150px;
+    }
+
+    .file {
+        display: inline-block;
+        background: #169BD5;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #FFFFFF;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+        text-align: center;
+        margin-left: 12px;
+        width: 100px;
+        height: 34px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+</style>
+</html>

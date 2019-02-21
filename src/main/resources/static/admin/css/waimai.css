@@ -1,0 +1,142 @@
+﻿@charset "utf-8";
+em{ font-style:normal}
+th{ font-weight:normal}
+.org{ color:#ff8000}
+.red{ color:#ff8000}
+.left{ margin-left:10px;}
+.left50{ margin-left:50px;}
+.left130{  margin-left:130px;}
+.left100{ margin-left:100px;}
+.bottom10{ margin-bottom:10px;}
+button,input,select,textarea{ color:#666666}
+.center_table td, .center_table th{ text-align:center}
+.wm_sq{ color:#333333}
+.sq_hd{ border-bottom:1px #eaeaea solid; height:70px; line-height:70px; font-size:18px; text-align:center}
+.step_tit{ margin:30px auto; text-align:center; font-size:16px}
+.step_bg1{ width:645px; height:150px; background:url(../images/waimai/waimai_step.gif) no-repeat; margin:0px auto}
+.step_bg2{ width:645px; height:150px; background:url(../images/waimai/waimai_step.gif) 0px -200px no-repeat; margin:0px auto}
+.wm_sq table{ margin:0px auto}
+.wm_sq th{ width:190px; text-align:right; padding:10px 8px 8px 8px; vertical-align:top; font-weight:normal}
+.wm_sq td,.addre_box td{ padding:8px;}
+.wm_sq .txt{ border:1px #eaeaea solid; height:28px; line-height:28px; padding:0px 4px; width:192px;}
+.wm_sq .txt2{ border:1px #eaeaea solid; height:28px; line-height:28px; padding:0px 4px; width:408px;}
+.input_elem{ border:1px #eaeaea solid}
+.upload_list li{ float:left; margin-right:20px;}
+.upload_list .img{ width:136px; height:102px; display:block; background:#cfcfcf}
+.upload_list p.ts{ text-align:center; padding:30px 10px 0px 10px; line-height:20px; color:#999999; font-size:12px}
+.upload_list .btn{ text-align:center; margin-top:10px;}
+.waimai_error{ color:#00a1ee ; background:url(../images/error.gif) 0px 6px no-repeat; padding-left:25px; margin-top:10px; line-height:26px;}
+.add_menutype li .save_btn input,.vip_btn .save_btn input{ background:#6892bc }
+.add_menutype li .save_btn input:hover,.vip_btn .save_btn input:hover{ background:#5a7da0 }
+.show_info_1,.show_info_2{border:1px #eaeaea solid; margin-top:20px; padding:10px 0px}
+.show_info_1 table,.show_info_2 table{ width:820px; }
+.show_info_1 th,.show_info_2 th{ width:140px;}
+.weixin_suc{ padding:60px; line-height:24px;}
+.suc_hd{ font-size:36px; color:#ff8000 ; text-align:center; background:url(../images/weixin_suc.png) 10px 10px no-repeat; padding-left:30px; margin-bottom:30px; line-height:55px;}
+.member_list h3,.edit_info h3{ font-size:16px; font-weight:bold; line-height:30px; border-bottom:1px #eaeaea solid; padding-bottom:10px;}
+.addre_box{ margin-top:10px; padding-bottom:20px; }
+.addre_box th{ width:106px; text-align:right; padding:10px 8px 8px 8px; vertical-align:top; font-weight:normal}
+.addre_box .txt{border:1px #eaeaea solid; height:28px; line-height:28px; padding:0px 4px; width:360px;}
+
+.add_date{ color:#999999}
+.add_date span{ float:left; display:block; line-height:28px; height:28px;}
+.add_date li{ display:block; overflow:hidden; margin-bottom:20px;}
+.add_date input{border:1px #eaeaea solid; height:28px; line-height:28px; padding:0px 4px; width:40px; display:block; float:left;}
+.add_date .up,.add_date .down{ background:url(../images/waimai/waimai_ico.png) no-repeat; width:16px; height:10px; display:block; margin:4px; padding:0px;}
+.add_date .up{ background-position:-2px -97px;}
+.add_date .down{ background-position:-2px -109px;}
+.add_btn,.add_btn2,.del_btn,.del2_btn{width:19px; height:19px; display:block; margin:6px 0px 0px 8px; float:left; cursor:pointer; line-height:999px; overflow:hidden;}
+.add_btn,.add_btn2{ background:url(../images/waimai/waimai_ico.png) -1px -17px no-repeat; }
+.del_btn{ background:url(../images/waimai/waimai_ico.png) -1px -61px no-repeat; }
+.del2_btn{ background:url(../images/waimai/waimai_ico.png) -2px -140px no-repeat;}
+.addre_list li{ overflow:hidden;}
+.map{  margin-top:10px;}
+.skin-minimal label{ margin-right:30px;}
+.guige_list .skin-minimal label{ margin-right:0px;}
+textarea.gd{ width:98%; margin:20px auto; height:200px; padding:1%; border:1px #eaeaea solid; display:block}
+
+.fenlei th{ text-align:center; background:#e2e2e2; height:34px; line-height:34px; font-weight:normal}
+.fenlei th.l{ text-align:left; padding-left:10px;}
+.sub_fenlei{ overflow:hidden;}
+.sub_fenlei p{ width:40%; float:left;}
+.sub_fenlei td{ text-align:center; padding:12px 10px; line-height:28px;}
+.sub_fenlei td.l{ text-align:left; padding-left:10px;}
+.sub_fenlei table{ border:1px #eaeaea solid; border-left:2px #525252 solid; margin-top:10px;}
+.rigth20{ margin-right:20px;}
+.edit_show{ display:none;}
+.edit_ico,.del_ico,.ok_ico{width:19px; height:19px; display:inline-block; margin-right:40px; float:right; line-height:999px; overflow:hidden; cursor: pointer; margin-top:4px;}
+.edit_ico{ background:url(../images/waimai/waimai_ico.png) -1px -182px no-repeat; }
+.del_ico{ background:url(../images/waimai/waimai_ico.png) -1px -237px no-repeat;}
+.ok_ico{ background:url(../images/waimai/waimai_ico.png) -1px -285px no-repeat;}
+.sub_fenlei input,.sub_fenlei textarea{ border:1px #eaeaea solid; padding:0px 5px;}
+.sub_fenlei input{ width:90%; text-align:center; height:28px; line-height:28px;}
+.sub_fenlei textarea{ width:60%; height:28px; line-height:28px;}
+.addre_box .w_not{ width:192px;}
+.show_date{ float:left; margin-left:10px;}
+textarea.cp{ width:430px; height:120px; padding:5px; border:1px #eaeaea solid; }
+
+.guige_list,.show_date{display:none}
+.guige_list table{ border:1px #eaeaea solid; border-bottom:none; margin-top:10px; }
+.guige_list td{ border-bottom:1px #eaeaea solid; padding:5px 8px;}
+.guige_list td.r{ text-align:right}
+.guige_list td.l{ text-align:left}
+.guige_list input{ border:1px #eaeaea solid; padding:0px 4px; height:28px; line-height:28px;}
+.guige_list input.txt1{ width:382px;}
+.guige_list input.txt2{ width:116px;}
+
+.dindan_line{ padding-bottom:20px; border-bottom:1px #eaeaea solid; margin-bottom:20px;}
+.dindan th{ text-align:right; width:100px; padding:8px; vertical-align:top}
+.dindan td{ padding:8px; color:#666666}
+.sub_dindan{ margin-left:30px;}
+.sub_dindan th{ background:#8c8c8c; border-bottom:1px #FFFFFF solid; padding:8px; color:#FFFFFF; text-align:center}
+.sub_dindan td{ background:#eeeeee; border-bottom:1px #FFFFFF solid; padding:8px; text-align:center }
+.sub_dindan tr.peisong td{ background:#b7b7b7; border-bottom:1px #FFFFFF solid; padding:8px; color:#FFFFFF }
+.sub_dindan tfoot td{ background:#4e4e4e; border-bottom:1px #FFFFFF solid; padding:8px; color:#FFFFFF }
+
+a.up,a.down{ background:url(../images/waimai/waimai_ico.png) no-repeat; padding-left:20px; color:#333333}
+a.down{ background-position:-3px -344px}
+a.up{ background-position:-3px -402px}
+
+.off_list li{ border-bottom:1px #eaeaea solid; padding-bottom:20px; position:relative; margin-bottom:30px; }
+.off_list li input{ width:170px; height:28px; border:1px #eaeaea solid; padding:0px 4px; margin:0px 5px;}
+.off_list li .hd{ background:url(../images/waimai/waimai_ico_2.gif) no-repeat; height:40px; line-height:40px; padding-left:50px;}
+.off_list li.n2 .hd{ background-position:0px -107px}
+.off_list li a{ position:absolute; line-height:999px; overflow:hidden; right:5px; bottom:20px; width:60px; height:32px; display:block; background:url(../images/waimai/waimai_ico_2.gif)  -5px -279px no-repeat}
+.off_list li a.off{ background-position:-5px -209px;}
+.size_12{ font-size:12px}
+
+.guige a{ background:url(../images/help.png) no-repeat; width:16px; height:16px; display:inline-block;}
+.guige { position:relative; top:4px;}
+.show_guige_img{ border:1px #eaeaea solid; width:400px; position:absolute; top:34px; left:-122px; z-index:10; display:none}
+.show_guige_img b{ background:url(../images/price_sj.png) no-repeat; width:25px; height:16px; display:block; position:absolute; top:-16px; left:118px;}
+
+.pingjia_tab ul{ border-left:1px #eaeaea solid; overflow:hidden}
+.pingjia_tab li{ float:left; height:40px; line-height:40px; padding:0 20px; border:1px #eaeaea solid; border-left:none; cursor:default}
+.pingjia_tab li.good{ padding-left:35px; background:url(../images/waimai/waimai_ico_3.png) 0px 9px no-repeat; color:#e92b2b}
+.pingjia_tab li.midd{ padding-left:35px; background:url(../images/waimai/waimai_ico_3.png) 0px -45px no-repeat; color:#ffa200}
+.pingjia_tab li.bad{ padding-left:35px; background:url(../images/waimai/waimai_ico_3.png) 0px -107px no-repeat; color:#787878}
+.pingjia_tab li.cur{ background-color:#a7a7a7; color:#FFFFFF}
+.pingjia_con li{ margin-top:10px; color:#616466}
+.pj_hd{ height:45px; line-height:45px; padding:0px 15px; color:#FFFFFF}
+.pj_hd span{ float:right; color:#feb300}
+li.mt .pj_hd{ background:#51a18a}
+li.bd .pj_hd{ background:#365783}
+.pj_box{ border:1px #eaeaea solid; border-top:none; padding:15px; position:relative;}
+.pj_box .l{ position:absolute; top:15px; left:15px;}
+.left10{ margin-left:10px;}
+.textarea_box{ padding-right:150px;position:relative}
+.textarea_box textarea{ border:1px #eaeaea solid; padding:5px; height:70px; width:100%; margin-top:10px; }
+.textarea_box .btn1{ width:76px; height:30px; text-align:center; line-height:30px; color:#FFFFFF; display:block; position:absolute; top:30px; right:20px; background:#00a1ee ; border:none; cursor:pointer; font-family:"microsoft yahei"; border-radius:3px;}
+.textarea_box .btn1:hover{ background:#028fd2 }
+.textarea_box .btn2{ width:76px; height:30px; text-align:center; line-height:30px; color:#FFFFFF; box-shadow:1px 1px 1px 1px rgba(0,0,0,0.1) inset; display:block; position:absolute; top:30px; right:20px; background:#fb9300; border:none; cursor:pointer; font-family:"microsoft yahei"}
+.photo{ background:url(../images/waimai/waimai_ico_3.png) 0px -160px  no-repeat; padding-left:50px; height:50px; display:block; line-height:50px;}
+.photo img{ position:relative; left:4px; top:-10px;}
+.pj_box .l i{ background:url(../images/waimai/waimai_ico_3.png) -6px -395px no-repeat; display:inline-block; width:18px; height:18px;}
+.pj_box .l i.on{ background-position:-6px -345px}
+.pj_list{ padding:15px 0px;}
+.pj_list em{ background:url(../images/waimai/waimai_ico_3.png) no-repeat; padding-left:30px;}
+.pj_list em.zhan{ background-position:0px -241px; color:#ff0000}
+.pj_list em.cai{ background-position:0px -296px}
+.pj_list span{ display:inline-block; border-radius:20px; background:#e2e2e2; height:26px; line-height:26px; text-align:center; margin-left:10px; padding:0px 30px;}
+.pj_mod{padding-left:180px; overflow:hidden; min-height:90px;}
+.pingjia_con .page_right{top:18px}

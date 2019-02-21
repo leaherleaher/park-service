@@ -1,0 +1,37 @@
+﻿@charset "utf-8";
+/* 初始化 */
+.stat_ext{ padding:20px 0; position:relative}
+.stat_nav li,.stat_nav li.cur a{ height:50px; line-height:50px; font-size:12px;}
+.stat_nav li a{ height:50px; line-height:50px}
+.stat_tab ul{ height:50px; line-height:50px;}
+.stat_tab li,.stat_tab li a{ height:50px; line-height:50px; font-size:12px}
+#chart1,#chart2,#chart3,#chart4,#chart5,#chart6,#pie1, #pie2,#wei{ height:380px; font-size:12px}
+.sk_l,.sk_r,.wei_stat{ font-size:12px}
+.stat_ext p,.stat_ext span{ font-size:12px; line-height:1.4; margin:50px 0 10px 0}
+.stat_ext span.frdate{ margin:10px 0 0 0; text-align:right; display:block;}
+
+a.card1{ display:block; width:24px; height:24px; background:#f67013; border-radius:3px; text-shadow:1px 1px rgba(0,0,0,0.2); line-height:24px; text-align:center; color:#FFF; margin:0px 1px;}
+a.card2{ display:block;  width:24px; height:24px; background:#72c100; border-radius:3px; text-shadow:1px 1px rgba(0,0,0,0.2); line-height:24px; text-align:center; color:#FFF; margin:0px 1px;}
+.jilu td{ border-bottom:1px #dfdfdf solid; color:#666; padding:6px 10px;}
+.jilu td span{ position:relative;display:inline-block;}
+.show_card{ position:absolute; top:-125px; left:-82px; display:block; background:#FFF; border:1px #c0c0c0 solid; box-shadow:1px 3px 3px rgba(0,0,0,0.1); padding:10px 14px; color:#787878; line-height:28px;color:#333; font-size:14px; width:190px; display:none}
+.show_card dt{ color:#787878}
+.show_card dd{  margin:-27px 0px 0px 70px;}
+.show_card b{ display:block; background: url(../images/pos/card_b.png) no-repeat; width:23px; height:18px; position:absolute; bottom:-18px; left:82px}
+.color_list{ overflow:hidden; width:100%}
+.color_list ul{ float:right; margin-top:30px;}
+.color_list li{ margin-right:20px; float:left; font-size:12px;}
+.color_list li *{ vertical-align:middle}
+.color_list li i{ width:14px; height:14px; display:inline-block; margin-right:8px;}
+.color_list li.c1 i{ background-color:#4bb2c5}
+.color_list li.c2 i{ background-color:#eaa228}
+.color_list li.c3 i{ background-color:#c5b47f}
+.highcharts-button{ display:none}
+.stat_txt{ float:left; width:140px;}
+.stat_txt p{ line-height:40px; font-size:14px}
+.stat_list{ position:relative; border:1px #eaeaea solid; overflow:hidden; padding:20px 0px 20px 20px; margin-top:20px; height:280px;}
+.stat_r{ position: relative; float:left; top:20px;width:79%; height:240px; left:5%}
+.stat_r .highcharts-container{ right:100px;}
+.stat_list .stat_r .highcharts-container{ right:0px;}
+.lh30{ line-height:30px;}
+

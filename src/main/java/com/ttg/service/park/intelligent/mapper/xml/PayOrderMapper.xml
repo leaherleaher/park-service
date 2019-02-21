@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttg.service.park.intelligent.mapper.PayOrderMapper">
+
+    <!-- 开启二级缓存 -->
+   <!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+    <resultMap id="BaseResultMap" type="com.ttg.service.park.intelligent.entity.PayOrder" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="mer_id" property="merId" jdbcType="VARCHAR" />
+        <result column="open_id" property="openId" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="plate_no" property="plateNo" jdbcType="VARCHAR" />
+        <result column="park_id" property="parkId" jdbcType="INTEGER" />
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+        <result column="park_name" property="parkName" jdbcType="VARCHAR" />
+        <result column="entry_time" property="entryTime" jdbcType="TIMESTAMP" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="elapsed_time" property="elapsedTime" jdbcType="INTEGER" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="payable" property="payable" jdbcType="INTEGER" />
+        <result column="delay_time" property="delayTime" jdbcType="INTEGER" />
+        <result column="out_time" property="outTime" jdbcType="TIMESTAMP"/>
+        <result column="order_time" property="orderTime" jdbcType="TIMESTAMP"/>
+        <result column="pay_status" property="payStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="SuccessInfoMap" type="com.ttg.service.park.dto.vo.PaySuccessVo">
+        <result column="park_name" property="parkName" jdbcType="VARCHAR" />
+        <result column="entry_time" property="entryTime" jdbcType="TIMESTAMP" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="stop_time" property="stopTime" jdbcType="INTEGER" />
+        <result column="payable" property="payable" jdbcType="INTEGER" />
+        <result column="order_amt" property="orderAmt" jdbcType="INTEGER" />
+        <result column="plate_no" property="plateNo" jdbcType="VARCHAR" />
+        <result column="mer_logo" property="merLogo" jdbcType="VARCHAR" />
+        <result column="countdown_time" property="countdownTime" jdbcType="INTEGER" />
+        <result column="mer_id" property="merId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+    id, mer_id, open_id, nick_name, plate_no, park_id, order_no,
+    park_name, entry_time,pay_time,elapsed_time,img,payable,delay_time
+    </sql>
+
+    <select id="selectPlateNoList" resultMap="BaseResultMap" parameterType="java.lang.String">
+       select
+        distinct mer_id,plate_no
+       from pay_order
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+    <select id="selectPlateNoInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+       select
+        <include refid="Base_Column_List"/>
+        from pay_order
+    </select>
+
+
+    <select id="findDetailInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from pay_order
+        WHERE order_no = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="findSuccessInfo" resultMap="SuccessInfoMap" parameterType="java.lang.String">
+        SELECT
+            a.park_name,
+            a.entry_time,
+            b.pay_time,
+            a.elapsed_time stop_time,
+            a.payable,
+            b.order_amt,
+            a.plate_no,
+            c.mer_logo,
+            c.countdown_time,
+            a.mer_id
+        FROM
+            pay_order a,
+            p_c_order b,
+            merchant_basic_setting c
+        WHERE
+            b.order_id = #{orderNo,jdbcType=VARCHAR}
+        AND b.order_id = a.order_no
+        AND b.mer_id = c.mer_id
+    </select>
+
+
+</mapper>

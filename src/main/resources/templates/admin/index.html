@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <title>智慧停车</title>
+    <!--[if IE]>
+    <script th:src="@{/Public/js/html5.js}"></script>
+    <![endif]-->
+    <!--引入CSS-->
+    <link rel="stylesheet" th:href="@{/Public/webuploader/webuploader.css}"/>
+    <link rel="stylesheet" th:href="@{/Public/sui/sui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/Public/css/common.min.css}"/>
+
+</head>
+<body>
+<!-- 导航区 -->
+<!--<nav>
+    <div class="main">
+        <div class="fr">
+        </div>
+        <a href=""><img src="../Public/images/logo.jpg" alt="" /></a>
+        <span>e收款管理平台</span>
+    </div>
+</nav>-->
+
+<!-- 内容区 -->
+<!--<div class="con_bg clearfix">
+    <div class="main">
+        <menu>
+            <h2>智慧停车</h2>
+            <ul id="mean">
+                <li class="curr" ><a href="javascript:void(0);" href-data="/merchant/park/computed" class="1">停车统计</a></li>
+                <li class="" ><a href="javascript:void(0);" href-data="/merchant/park/manage" class="1">车牌管理</a></li>
+                <li class=""><a href="javascript:void(0);" href-data="/merchant/market/manage" class="1">营销管理</a></li>
+                <li class=""><a href="javascript:void(0);" href-data="/merchant/basic/manage" class="1">基本配置</a></li>
+
+                &lt;!&ndash;<li class="" ><a href="javascript:void(0);" href-data="/epay/permission/list">菜单管理</a></li>&ndash;&gt;
+            </ul>
+        </menu>
+        <div class="content">
+            <iframe id="myContent" width="100%" frameborder="0" ></iframe>
+        </div>
+    </div>
+</div>-->
+
+<!-- 内容区 -->
+<div class="con_bg clearfix">
+    <div class="main">
+        <menu>
+            <h2>智慧停车</h2>
+            <ul id="mean">
+                <li class="curr"><a href="javascript:void(0);" href-data="/merchant/park/computed" class="1">停车统计</a>
+                </li>
+                <!--<li class=""><a href="javascript:void(0);" href-data="/merchant/park/manage" class="1">车牌管理</a></li>-->
+                <li class="">
+                    <!--<a href="javascript:void(0);" href-data="/merchant/market/manage" class="1">营销管理</a>-->
+                    <a href="javascript:void(0);" href-data="/merchant/market/manage" class="1">营销管理</a>
+                    <!--<div class='secondary' v-show='type'>
+                        <h2>
+                            <a href-data="/merchant/market/manage" class="1">
+                                <span >模板类型</span>
+                            </a>
+                        </h2>
+                        <h2>
+                            <a class=class="1" href-data="/merchant/market/manage">
+                                <span>广告类型</span>
+                            </a>
+                        </h2>
+                    </div>-->
+                </li>
+                <!--<li class=""><a href="javascript:void(0);" href-data="/merchant/market/admanage" class="1">广告类型管理</a></li>-->
+                <li class=""><a href="javascript:void(0);" href-data="/merchant/basic/manage" class="1">基本配置</a></li>
+            </ul>
+        </menu>
+        <div class="content">
+            <iframe id="myContent" width="100%" height="100%" frameborder="0" src=""></iframe>
+        </div>
+    </div>
+</div>
+<!-- 页脚区 -->
+<footer>
+    <div class="main">
+        <span class="fr"><a href="">关于我们</a>|<a href="">联系我们</a></span>TTG版权所有 粤ICP备14081130号-1
+    </div>
+</footer>
+<!-- 页脚区 -->
+<!--<footer>
+    <div class="main">&lt;!&ndash;<span class="fr"><a href="">关于我们</a>|<a href="">联系我们</a></span>TTG版权所有 粤ICP备14081130号-1 &ndash;&gt;</div>
+</footer>-->
+
+<!--引入JS-->
+<script th:src="@{/Public/js/jquery-1.8.0.min.js}"></script>
+<script th:src="@{/Public/sui/sui.min.js}"></script>
+<script>
+
+    $(function () {
+
+        //点击菜单，修改iframe的内容
+        $("#mean li a").live("click", function () {
+
+            var href = $(this).attr("href-data");
+            $("#myContent").attr("src", href);
+
+            //样式修改
+            $(".cur").removeClass("cur");
+            $(this).parent().addClass("cur");
+        });
+
+        //初始化
+        var size = $("#mean li").length;
+        var href = "/epay/no_auth";
+        if (size > 0) {
+            href = $("#mean li a").attr("href-data");
+        }
+        $("#myContent").attr("src", href);
+    });
+
+
+</script>
+
+</body>
+<style lang='less'>
+    .nextselect {
+        font-size: 14px;
+    }
+
+    .nextselect2 {
+        background: #EEEEEE
+    }
+
+    .active {
+        background: #EEEEEE
+    }
+
+    .blockText {
+        display: block;
+        width: 130px;
+        height: 37.6px;
+        margin: auto;
+    }
+</style>
+</html>

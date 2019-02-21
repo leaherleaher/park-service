@@ -1,0 +1,104 @@
+server:
+  port: 8069
+  servlet:
+    context-path: "/"
+
+
+logging:
+  #  config: classpath:logback-merchant.xml
+  path: C:\Users\ttg\Desktop\parkService\logs
+  config: classpath:logback-${spring.profiles.active}.xml
+
+spring:
+  thymeleaf:
+    mode: HTML5
+    prefix: classpath:/templates/
+    cache: false
+
+  application:
+    name: intelligent-park
+  profiles:
+    active: dev
+
+
+tlinx:
+  dev-id: ${tlinx.dev.id}
+  app-id: ${tlinx.app.id}
+  app-secret: ${tlinx.app.secret}
+  shop-url: ${tlinx.api.shop.url}
+  api-token-url: ${tlinx.api.token.url}
+  api-domain-url: ${tlinx.api.domain.url}
+  app-token-url: ${tlinx.api.app.token.url}
+  user-url: ${tlinx.api.user.url}
+  view-merchant-url: ${tlinx.api.view.merchant.url}
+  api-busi-url: ${tlinx.api.busi.url}
+  api-busi-pay-list-url: ${tlinx.api.busi.paylist.url}
+  api-busi-pay-order-url: ${tlinx.api.busi.payorder.url}
+  api-busi-pay-status-url: ${tlinx.api.busi.paystatus.url}
+
+pay:
+  auth-bank-url: ${pay.center.auth.bank.url}
+  auth-merchant-url: ${pay.center.auth.merchant.url}
+  auth-bank-prefix: ${pay.center.auth.bank.prefix}
+  auth-merchant-prefix: ${pay.center.auth.merchant.prefix}
+  upload-path: ${pay.center.upload.path}
+  file-server: ${pay.center.file.server}
+  bank-default-password: ${pay.center.bank.default.password}
+  merchant-default-password: ${pay.center.merchant.default.password}
+  #callback-url: ${pay.center.callback.url}
+  payDomain: ${pay.center.callback.url}
+  user-order-url: ${pay.center.user.order.url}
+  #proxy-flag: ${pay.center.proxy}
+  #proxy-host: ${pay.center.proxy.host}
+  #proxy-port: ${pay.center.proxy.prot}
+
+park:
+  #appId 和 appSecret
+  app-id: ${park.api.app.id}
+  app-secret: ${park.api.app.secret}
+
+  #停车支付模块
+
+  payment-info-url: ${park.api.payment.url}
+  sync-order-url: ${park.sync.order.url}
+
+
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath:com/ttg/service/park/intelligent/mapper/xml/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.ttg.service.park.intelligent.entity
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 3
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    #序列接口实现类配置
+    #key-generator: com.baomidou.springboot.xxx
+    #逻辑删除配置
+    logic-delete-value: -1
+    logic-not-delete-value: 0
+    #自定义填充策略接口实现
+    #meta-object-handler: com.baomidou.springboot.xxx
+    #自定义SQL注入器
+    configuration:
+      map-underscore-to-camel-case: true
+      cache-enabled: false
+      call-setters-on-nulls: true
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    meta-object-handler: com.ttg.service.park.config.MyMetaObjectHandler
+    capital-mode: true
+
+
+
+
+
+
+

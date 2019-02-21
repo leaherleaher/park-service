@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+.cj_hd dl{ margin-bottom:24px;}
+.cj_hd dt{ width:140px; float:left; text-align:right; line-height:30px;}
+.cj_hd dd{ margin-left:146px;}
+.taojinbi_table th{ line-height:47px; font-size:14px; color:#333; padding:0 0 0 20px; text-align:left; border:1px solid #eaeaea; background:#e2e2e2}
+.taojinbi_table td{ font-size:12px; line-height:22px; padding:10px 0 10px 20px; border:1px solid #eaeaea; color:#333}
+
+.tjb_num a{ background:#d8d8d8; text-align:center; color:#333; width:63px; height:27px; line-height:27px; font-size:14px; margin-right:10px; display:inline-block; border-radius:2px;}
+.tjb_num a:hover,.tjb_num a.on{ background:#00a1ee ; color:#fff;}
+.textarea textarea{ width:480px; height:86px; border:1px solid #e0e0e0; padding:5px;}
+.wxts { padding:10px 0 0 70px;}
+.wxts p{ font-size:12px; margin:5px 0 30px; line-height:24px;}
+
+.skin-minimal label{ margin-left:5px; cursor:pointer;}
+.hdlb_table td,.hdlb_table th{ padding:10px; padding-right:5px}
+.hdlb_table td a{ margin-right:5px;}
+.down_size{ padding:20px 0;}
+.down_size label{ margin:0 20px 0 5px;}
+.auto_h{ height:340px; overflow-y:auto;}

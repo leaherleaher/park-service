@@ -1,0 +1,431 @@
+.org {
+  color: #f77c2a;
+}
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #efeff4;
+  font-size: 54px;
+  line-height: 1.4;
+  color: #666;
+}
+.tree {
+  position: relative;
+  width: 100%;
+  height: 194px;
+  background: url('../images/tree.jpg') repeat-x;
+}
+.tree .car {
+  position: absolute;
+  bottom: -15px;
+  left: 45%;
+  width: 140px;
+  height: 120px;
+  background: url('../images/car.png') no-repeat;
+  background-size: contain;
+}
+.box {
+  padding: 50px;
+}
+.tipText {
+  background: url('../images/tipIcon.png') no-repeat left 10px;
+  padding-left: 90px;
+  margin: 30px 0 60px;
+}
+.sucText .p {
+  background: url('../images/sucIcon.png') no-repeat 20px 0;
+  background-size: contain;
+  padding-left: 140px;
+  color: #000;
+  font-size: 60px;
+}
+.failText {
+  text-align: center;
+  padding: 30px 0;
+}
+.failText .p {
+  background-image: url('../images/failIcon.png');
+}
+.keyBordInput ul {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin: 30px 0;
+}
+.keyBordInput ul li {
+  flex: 1;
+  position: relative;
+  display: block;
+  border: 2px dashed #b6b5b5;
+  background-color: #fff;
+  color: #000;
+  padding: 20px 0;
+  margin: 0 10px;
+  min-height: 80px;
+}
+.keyBordInput ul li:nth-child(2)::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin: -5px -15px 0 0;
+  background-color: #000;
+}
+.keyBordInput input {
+  margin: 0;
+  padding: 0;
+  width: 1px;
+  opacity: 0;
+  height: 1px;
+  border: none;
+  position: absolute;
+}
+.submitBtn {
+  margin: 100px auto;
+}
+.submitBtn button {
+  position: absolute;
+  display: block;
+  width: 92%;
+  height: 150px;
+  font-size: 60px;
+  border-radius: 10px;
+  border: 0;
+  align-self: center;
+  text-align: center;
+  margin: 28px 47px;
+  left: 0;
+}
+.orgbtn button {
+  background-color: #f77c2a;
+  color: #fff;
+}
+.orgbtn button:active,
+.orgbtn button:focus {
+  background-color: #c96523;
+}
+.carNum {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: #f77c2a;
+  font-size: 72px;
+  padding: 80px 0;
+}
+.carNum .dot {
+  display: inline-block;
+  align-self: center;
+  margin: 0 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background-color: #f77c2a;
+}
+.stopCarMsg {
+  background-color: #fff;
+}
+.stopCarMsg li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #d9d9d9;
+  color: #000;
+  padding: 30px 70px;
+  font-size: 48px;
+  color: #333;
+}
+.stopCarMsg li .itemName {
+  color: #999999;
+}
+.payWayList {
+  padding: 20px 0;
+  margin: 0;
+}
+.payWayList li {
+  position: relative;
+  margin: 70px 0;
+}
+.payWayList input {
+  visibility: hidden;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.payWayList label {
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+.payWayList label::after,
+.payWayList label::before {
+  content: '';
+  width: 46px;
+  height: 46px;
+  border-radius: 46px;
+  border: 1px solid #bfbfbf;
+  background-color: #fff;
+  position: absolute;
+  right: 0;
+}
+.payWayList input:checked + label:before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  border-radius: 28px;
+  background-color: #f77c2a;
+  z-index: 10;
+  margin: 0 9px;
+}
+.payWayList label .payIcon {
+  width: 100px;
+  height: 94px;
+  display: block;
+  margin-right: 20px;
+  background: url('../images/payWayIcon.png') no-repeat;
+  background-size: 100% auto;
+}
+.payWayList label .payIcon.icon2 {
+  background-position: 0 -150px;
+}
+.payWayList label .payIcon.icon3 {
+  background-position: 0 -300px;
+}
+.cutdownTip {
+  text-align: center;
+  font-size: 48px;
+}
+.cuTime {
+  padding: 30px 0;
+}
+.parkPlace {
+  text-align: center;
+  padding: 50px 0;
+  color: #000;
+}
+.parkPlace .p {
+  background: url('../images/parkCar.png') no-repeat left center;
+  background-size: contain;
+  padding-left: 90px;
+}
+
+
+/*键盘及虚拟input样式*/
+#keyboard_5xbogf8c ,#keyboard_5xbogf8c li  {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#keyboard_5xbogf8c,#keyboard_5xbogf8c_city{
+  display: none;
+  position:fixed;
+  z-index:10;
+  left: 0;
+  width: 100%;
+  height: 610px;
+  padding:4px 1px 2px 1px;
+  background: #d1d5da;
+  border-radius: 5px;
+  /*display:none;*/
+  right:0;
+  -webkit-text-size-adjust:none;
+}
+#keyboard_5xbogf8c_city{
+  bottom: 0;
+}
+#keyboard_5xbogf8c{
+  bottom: -610px;
+}
+#keyboard_5xbogf8c_city{
+  position:fixed;
+  z-index:10;
+  left: 0;
+  width: 100%;
+  height: 500px;
+  padding:4px 7px 2px 7px;
+  background: #d1d5da;
+  border-radius: 5px;
+  /*display:none;*/
+  right:0;
+  bottom:0;
+  -webkit-text-size-adjust:none;
+}
+#keyboard_5xbogf8c ::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#keyboard_5xbogf8c_city li{
+  position:relative;
+  font-family: arial,"Vrinda";
+  width: 11%;
+  height: 93px;
+  line-height: 93px;
+  background-color: #ffffff;
+  border-radius: 7px;
+  float: left;
+  text-align: center;
+  font-size: 44px;
+  vertical-align: text-top;
+  margin: 0.7%;
+  margin-bottom: 25px;
+  cursor: pointer;
+  position: relative;
+  overflow:visible ;
+}
+#keyboard_5xbogf8c li{
+  position:relative;
+  font-family: arial,"Vrinda";
+  width: 105px;
+  height: 130px;
+  line-height: 130px;
+  background-color: #ffffff;
+  border-radius: 7px;
+  float: left;
+  text-align: center;
+  font-size: 34px;
+  vertical-align: text-top;
+  margin-right: 1px;
+  margin-bottom: 25px;
+  cursor: pointer;
+  position: relative;
+  overflow:visible ;
+  margin-left: 16px;
+}
+#keyboard_5xbogf8c_city li:active {
+  box-shadow: inset 0 4px 0 rgba(0,0,0,.5);
+  top: 8px;
+  color: #ffffff;
+  background: #1da1f2;
+}
+#keyboard_5xbogf8c li:active {
+  box-shadow: inset 0 4px 0 rgba(0,0,0,.5);
+  top: 8px;
+  color: #ffffff;
+  background: #1da1f2;
+}
+.noMarginRinght {
+  margin-right: 0 !important;
+}
+
+.letterA{
+  margin-left: 74px !important;
+}
+.letterZ{
+  margin-left: 196px !important;
+}
+.delete{
+  width: 105px;
+  height: 130px;
+  line-height: 130px;
+  text-align: center;
+  border-radius: 7px;
+  color: #ffffff;
+  margin-right: 0;
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  margin-right: 86px;
+  background: #acb4bf;
+}
+.delete:active{
+   /* box-shadow: inset 0 4px 0 rgba(0,0,0,.5); */
+   /* bottom: 44px; */
+   background: rgba(255, 0, 0, 0.31) ;
+  }
+.keyboardMask{
+  /* display: none; */
+  /* position: fixed; */
+  height: 100%;
+  width: 100%;
+  top:0;
+  left: 0;
+  background: rgba(102, 102, 102, 0.52);
+  z-index: 100;
+}
+.virtualInput{
+  font-size: 0;
+  /* position: absolute;
+  top: 1.55rem;
+  left: 0.65rem; */
+}
+.virtualInput1{
+  display: flex;
+  justify-content: space-between;
+  background: #EDEDED;
+}
+.virtualInput li{
+  text-align:center;
+  line-height: 144px;
+  font-size: 56px;
+  vertical-align: middle;
+  height: 144px;
+  width: 144px;
+  background: #ffffff;
+  display: inline-block;
+  border: 0.5px dashed #000000;
+}
+.virtualInput li:nth-child(3){
+  margin: 67px 2.5px;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background: #000000;
+}
+.vi_active{
+  border: 1px solid #1da1f2;
+}
+/* .vi_numberHide{
+  display: none;
+} */
+
+/*最开始的input样式*/
+.vi-1{
+  background: #ffffff;
+}
+.vi-2{
+  border-bottom: 1px solid #dfdfdf;
+  height: 11px;
+  color:#333333;
+  font-size: 32px;
+  line-height: 11px;
+}
+.vi-3{
+  width: 25px;
+  padding-left: 40px;
+}
+.vi-4{
+  position: relative;
+  width: 50px;
+  text-align: left;
+}
+.vi-6{
+  color: #1da1f2;
+}
+.vi-6:after {
+    content: " ";
+    display: inline-block;
+    height: 15px;
+    width: 0.15px;
+    border-width: 2px 2px 0 0;
+    border-color: #c8c8cd;
+    border-style: solid;
+    -webkit-transform: matrix(.71,.71,-.71,.71,0,0);
+    transform: matrix(.71,.71,-.71,.71,0,0);
+    position: relative;
+    top: -2px;
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    right: 3px;
+}

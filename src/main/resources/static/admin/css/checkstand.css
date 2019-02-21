@@ -1,0 +1,53 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/*********************************************收银台**************************************/
+
+/*文字*/
+.alignCenter{ text-align: center;  }
+.ml-10{ margin-left: 10px; }
+
+/*定位*/
+.PoR{ position: relative; }
+
+.textIn input{ width: 233px; height: 20px; line-height: 20px; padding: 10px; border: 1px solid #dfdfdf;}
+
+.cashBox{ padding: 60px;}
+.CashItem{ display: table; line-height: 40px; padding: 10px 0}
+.CashItem .cell{ display: table-cell; vertical-align: middle; } 
+.CashItem .name{ width: 130px; text-align: right; padding:0 15px; vertical-align: top;}
+.pencilIcon{ background: url("../images/checkstand/pencil.gif") no-repeat; width: 16px; height: 16px; margin-left: 5px; display: inline-block; cursor: pointer;}
+
+
+.checksBtnsBox{ padding: 80px; }
+.BtnsInline .org_btn{ display: inline-block; margin-right: 90px; }
+.bigBtns .org_btn a{ padding:0 25px; height: 42px; line-height: 42px; font-size: 20px; color: #fff; }
+
+.orderNum{ border-bottom: 1px solid #e5e5e5; padding-bottom: 20px; }
+.payments{ float: right; padding-right: 130px; line-height: 50px; position: relative; top: -15px;}
+.payments .amount{ font-size: 24px; }
+.textCon{ padding: 0 10px; }
+
+.sucText{ line-height: 30px; margin: 0 auto; padding-left: 100px; width: 500px;}
+.resIcon{ margin: 30px 45px; float: left; }
+
+.sucText ~ .checksBtnsBox{ text-align: center;}
+
+.paymentTip{ display: block; clear: both; line-height: 200%; }
+
+
+.payImg{ padding: 30px 0; }
+.payImg img{ margin-right: 20px; }
+
+.tipInput{ padding: 15px; }
+.tipInput .org_btn{ margin-left: 15px;}
+.waitPayImg{ margin: 20px 0; }
+
+.pmRightQr{ width: 192px; background-color: #dfdfdf; position: absolute; right: 0; top: 0; bottom: -20px}
+.pmRightQr:before{ width: 9px; content: ""; height: 92px; background: #dfdfdf url("../images/checkstand/pmSjR.gif") no-repeat center center; border-radius: 3px 0 0 3px; position: absolute; left: -9px; top: 50%; margin-top: -46px; }
+
+.pmRightQr { text-align: center; box-sizing: border-box; padding-top: 180px; }
+.pmRightQr p { line-height: 200%; margin-top: 10px; }
+.pmRightQr p img{ position: relative; margin:0 5px; }
+
+.inNextF{ color: #999; padding-left: 15px; }

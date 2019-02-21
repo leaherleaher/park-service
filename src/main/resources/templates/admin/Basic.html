@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>会员卡</title>
+    <link href="/admin/css/reset.css" type="text/css" rel="stylesheet"/>
+    <link href="/admin/css/layout.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/admin/js/jquery-3.1.1.min.js"></script>
+    <script type='text/javascript' src='/admin/js/qrcode.min.js'></script>
+    <script type="text/javascript" src="/admin/js/vue.js"></script><!--vue-Element-->
+    <link href="/element/index.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/element/index.js"></script>
+
+    <style type="text/css">
+        [v-cloak] {
+            display:none !important;
+        }
+    </style>
+</head>
+<body>
+<section id="content" v-cloak>
+    <section id="boxRight" class="boxRight">
+        <div class="boxRight_tit f1 borderb">基本配置</div>
+        <div class="block">
+            <div class="borderc">
+                <h1>首页显示设置</h1>
+            </div>
+            <div class="middle-block">
+                <article class="boxRightCon">
+                    <ul class="sel_mod">
+                        <li class="sel_list">
+                            <span class="name sel_th2"></span>
+                            <div class="selectionDisplay" id="preview"><img :src="logoUrl" alt=""><span class='logon' v-if='hides'>{{UserDetails.merLogo}}</span></div>
+                            <!--  -->
+                            <div class="formInlineBlock jb_btn filePic">
+                                <input @change="upImg($event,'front')" name="file" type="file" id="filepic" value='' accept="image/png, image/jpeg, image/gif, image/jpg"/>
+                            </div>
+                        </li>
+
+                        <li v-for="(item,index) in imgList" class="None">
+                            <span>{{item.imgName}}</span>
+                            <input class="long" type="text" :placeholder='item.url' v-model='item.url' disabled="disabled"/>
+                            <span><img :src="item.imgUrl" :class="{active: index===selectIndex}" @click="select(index)"/></span>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </article>
+            </div>
+        </div>
+        <div class="block">
+            <div class="borderc">
+                <h1>倒计时设置</h1>
+            </div>
+            <div class="middle-block1">
+                <article class="boxRightCon">
+                    <ul class="sel_mod">
+                        <li class="None">
+                            <span>出场倒计时：</span><input class="short" type="text" :placeholder="UserDetails.countdownTime" v-model='InfoUpdate.countdownTime'  disabled="disabled"/>&nbsp&nbsp&nbsp<p>分钟前离场</p>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </article>
+            </div>
+        </div>
+        <div class="compile"><input name="button" type="button" value="编辑" @click='compile(UserDetails.merId)'/></div>
+    </section>
+</section>
+<script type="text/javascript">
+    new Vue({
+        el: '#content',
+        data(){
+            return{
+                hides: true,
+                isChoose: this.isChoose,
+                changeGray: '',
+                type: false,
+                UserDetails: [],
+                formData: new FormData(),
+                InfoUpdate:{
+                    id: '',
+                    attr1Url: '',
+                    attr2Url: '',
+                    attr3Url: '',
+                    countdownTime: '',
+                    Imgshow: '',
+                },
+                imgList:[],
+                logoUrl: '',
+                Img:'',
+                selectIndex: undefined
+            }
+        },
+        methods:{
+            compile(id){
+                window.location.href = '/merchant/basic/edit?='+id
+            },
+            ManageType(){
+                if(this.type === false){
+                    this.type = true
+                }else{
+                    this.type = false
+                }
+            },
+            change(num){
+                this.changeGray = num
+            },
+            select (index) {
+                this.selectIndex = this.selectIndex === index ? undefined : index
+            }
+        },
+        created(){
+            this.hides = false;
+            let self = this;
+            let params = {}
+            //商户基本配置INFO
+            $.ajax({
+                url: '/merchant/setting/info',
+                type: 'get',
+                statusCode:{
+                    404:function() {
+                    alert('网络错误')
+        }
+        },
+            success:(params) => {
+                this.UserDetails = params.data;
+                this.imgList = [
+                    {
+                        imgName: '首页地址：',
+                        url:this.UserDetails.attr1Url,
+                        imgUrl:'/sys/util/showqrcode?url='+this.UserDetails.attr1Url
+                    }
+                    /*{
+                        imgName: '无牌车入口',
+                        url:this.UserDetails.attr2Url,
+                        imgUrl:'/sys/util/showqrcode?url='+this.UserDetails.attr2Url
+                    },
+                    {
+                        imgName: '无牌车出口',
+                        url:this.UserDetails.attr3Url,
+                        imgUrl:'/sys/util/showqrcode?url='+this.UserDetails.attr3Url
+                    }*/
+                ];
+
+
+                //this.Img = params.data
+                let data1 = JSON.stringify({"filename":this.UserDetails.merLogo})
+                //工具接口SHOWIMG
+                var url = '/sys/util/showimg';
+                var xhr = new XMLHttpRequest();
+                xhr.open('post', url, true);
+                xhr.responseType = "blob";
+                xhr.setRequestHeader("Content-type","application/json;charset=UTF-8");
+                xhr.onload = function() {
+                    if (this.status == 200) {
+                        var blob = this.response;
+                        self.logoUrl= window.URL.createObjectURL(blob)
+                    }
+                }
+                xhr.send(data1);
+            }
+        })
+        }
+
+    })
+</script>
+</body>
+<style>
+    .selectionDisplay{
+        width: 284px;
+        height: 144px;
+    }
+    .selectionDisplay>img{
+        width: 100%;
+        height: 100%;
+    }
+    .logon{
+        position: absolute;
+        top: 274px;
+        left: 368px;
+        width: 159px;
+        height: 95px;
+    }
+    .sel_list{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 150px;
+    }
+    #qrcode {
+        width:30px;
+        height:30px;
+        margin-top:15px;
+        overflow:hidden;
+        margin-top: -3px;
+    }
+    .active{
+        width: 100px !important;
+        height: 100px !important;
+    }
+    #qrcode img{
+        width: 100%;
+        height: 100%;
+    }
+    #text{
+        background: transparent;
+        border: 0;
+    }
+    .nextselect{
+        font-size: 14px;
+    }
+    .active{
+        background: #EEEEEE
+    }
+    .blockText{
+        display: block;
+        width: 130px;
+        height: 37.6px;
+        margin: auto;
+    }
+
+    .block{
+        padding: 0 0 0 48px;
+    }
+    .None{
+        display: flex;
+        margin: 0 0 16px 0;
+    }
+    .None span{
+        display: block;
+        width: 100px;
+        text-align: right;
+    }
+    .None span:nth-of-type(2){
+        width: 80px;
+        height: 80px;
+        left: 555px;
+    }
+    .None span:nth-of-type(2) img{
+        width: 80px;
+        height: 80px;
+        transform: scale(1);
+        transition: all ease 0.5s;
+        margin: -32px 0 0 25px;
+    }
+    .None span:nth-of-type(2) img.active {
+        transform: scale(1.5);
+        position: absolute;
+        z-index: 100;
+    }
+    .long{
+        width: 390px;
+        height: 18px;
+        border: 1px solid;
+    }
+    .short{
+        height: 18px;
+        text-align: center;
+    }
+    input::-webkit-input-placeholder{
+        color: #000000;
+        text-align: center;
+        line-height: 18px;
+    }
+    h1{
+        font-size: 14px;
+    }
+    .borderc{
+        padding: 10px 0 6px 0;
+        border-bottom: 1px solid #000000;
+        color: #000000;
+    }
+    .middle-block{
+        display: flex;
+        width: 100%;
+        height: 284px;
+        margin-top: 12px;
+        background: #F2F2F2;
+        border-radius: 6px;
+        align-items: center;
+    }
+    .middle-block1{
+        width: 100%;
+        height: 100px;
+        margin-top: 12px;
+        background: #F2F2F2;
+        border-radius: 6px;
+    }
+    .sel_mod>li:first-child{
+        display: flex;
+        margin: 0 0 30px 0;
+    }
+    .sel_mod a{
+        line-height: 25px;
+    }
+    .changeColor{
+        background: #169BD5 !important;
+    }
+    .name{
+        display: block;
+        width: 100px;
+    }
+    .photo{
+        display: block;
+        width: 200px;
+        height: 100px;
+        background: rgba(233,233,233,0.6);
+        color: #A399A3;
+        text-align: center;
+        line-height: 100px;
+    }
+    .file {
+        display: inline-block;
+        background: #169BD5;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #FFFFFF;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 25px;
+        text-align: center;
+        margin-left: 12px;
+        width: 75px;
+        height: 25px;
+        font-size: 12px;
+    }
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+    .compile{
+        width: 135px;
+        height: 42px;
+    }
+    .compile input{
+        display: inline-block;
+        width: 135px;
+        height: 42px;
+        background: -webkit-linear-gradient(left,#169BD5,#78C3F3);
+        border-radius: 3px;
+        border: 0;
+        font-size: 18px;
+        color: #FFFFFF;
+        margin: 20px 0 0 178px;
+        cursor:pointer;
+    }
+
+    .active{
+        transform: scale(1);
+        position: absolute;
+        z-index: 100;
+    }
+
+    /* img {
+     transform: scale(1);          图片原始大小1倍
+     transition: all ease 0.5s; }  图片放大所用时间
+    img.scale {
+     transform: scale(2);          图片需要放大2倍
+     position: relative;           相对定位，是相对于前面的容器定位的
+     z-index: 100; }               属性设置元素的堆叠顺序,保证图片放大后处于最上层 */
+
+</style>
+</html>

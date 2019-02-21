@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttg.service.park.intelligent.mapper.PSysBranchMapper">
+
+    <!-- 开启二级缓存 -->
+    <resultMap id="BaseResultMap" type="com.ttg.service.park.intelligent.entity.PSysBranch">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="branch_id" property="branchId" jdbcType="VARCHAR"/>
+        <result column="branch_name" property="branchName" jdbcType="VARCHAR"/>
+        <result column="branch_desc" property="branchDesc" jdbcType="VARCHAR"/>
+        <result column="par_branch_id" property="parBranchId" jdbcType="VARCHAR"/>
+        <result column="branch_level" property="branchLevel" jdbcType="INTEGER"/>
+        <result column="branch_order" property="branchOrder" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, branch_id, branch_name, branch_desc, par_branch_id, branch_level, branch_order,
+    create_time, modify_time
+    </sql>
+
+    <select id="selectByBranchId" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM p_sys_branch
+        WHERE branch_id=#{branchId,jdbcType=VARCHAR}
+    </select>
+</mapper>

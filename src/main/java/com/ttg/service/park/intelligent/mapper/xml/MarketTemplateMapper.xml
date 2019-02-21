@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttg.service.park.intelligent.mapper.MarketTemplateMapper">
+
+    <!-- 开启二级缓存 -->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+    <resultMap id="BaseResultMap" type="com.ttg.service.park.intelligent.entity.MarketTemplate">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="template_id" property="templateId" jdbcType="VARCHAR"/>
+        <result column="temp_category_code" property="tempCategoryCode" jdbcType="VARCHAR"/>
+        <result column="template_no" property="templateNo" jdbcType="VARCHAR"/>
+        <result column="template_name" property="templateName" jdbcType="VARCHAR"/>
+        <result column="template_url" property="templateUrl" jdbcType="VARCHAR"/>
+        <result column="template_img" property="templateImg" jdbcType="VARCHAR"/>
+        <result column="template_status" property="templateStatus" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="last_updated_time" property="lastUpdatedTime" jdbcType="TIMESTAMP"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+        <result column="temp_category_desc" property="tempCategoryDesc" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, template_id, temp_category_code, template_no, template_name, template_url, template_img,
+    template_status, create_by,create_time,last_updated_by,last_updated_time,note
+    </sql>
+
+    <sql id="Base_Column_all_List">
+    id, template_id, temp_category_code, template_no, template_name, template_url, template_img,
+    template_status, create_by,create_time,last_updated_by,last_updated_time,note,temp_category_desc
+    </sql>
+
+    <select id="selectAllList" resultMap="BaseResultMap">
+        SELECT
+            a.id,
+            a.template_id,
+            a.temp_category_code,
+            a.template_name,
+            a.template_no,
+            a.template_url,
+            a.template_status,
+            a.template_img,
+            a.create_by,
+            a.create_time,
+            a.last_updated_by,
+            a.last_updated_time,
+            a.note,
+            b.temp_category_desc
+        FROM
+            market_template a,
+            template_category b
+        WHERE
+            a.template_id = b.id
+          AND
+            a.create_by = #{merId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+            a.id,
+            a.template_id,
+            a.temp_category_code,
+            a.template_name,
+            a.template_no,
+            a.template_url,
+            a.template_status,
+            a.template_img,
+            a.create_by,
+            a.create_time,
+            a.last_updated_by,
+            a.last_updated_time,
+            a.note,
+            b.temp_category_desc
+        FROM
+            market_template a,
+            template_category b
+        WHERE
+            a.template_id = b.id
+        and a.id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectEnList" resultMap="BaseResultMap">
+          SELECT
+            a.id,
+            a.template_id,
+            a.temp_category_code,
+            a.template_no,
+            a.template_name,
+            a.template_url,
+            a.template_img,
+            a.template_status,
+            a.create_by,
+            a.create_time,
+            a.last_updated_by,
+            a.last_updated_time,
+            a.note,
+            b.temp_category_desc
+        FROM
+            market_template a,
+            template_category b,
+            p_sys_user c
+        WHERE
+            a.template_id = b.id
+        AND c.user_relation = #{merId,jdbcType=VARCHAR}
+        AND c.user_id = a.create_by
+        AND a.template_status = 1
+        ORDER BY
+            a.create_time DESC
+    </select>
+
+</mapper>

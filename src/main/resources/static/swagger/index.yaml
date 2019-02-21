@@ -1,0 +1,916 @@
+swagger: '2.0'
+info:
+  description: 智慧停车应用
+  version: 1.0.0
+  title: 智慧停车应用
+
+basePath: "/"
+
+schemes:
+- http
+
+##认证
+#securityDefinitions:
+#  api_key:
+#    type: "apiKey"
+#    name: "token"
+#    in: "header"
+
+#定义接口数据
+paths:
+  /merchant/car/paylist:
+    get:
+      tags:
+      - 停车统计
+      summary: 停车统计列表
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: plateNo
+        description: 车牌号模糊查询
+        in: query
+        type: string
+      - name: payTimeStart
+        description: 支付起始日期模糊查询
+        in: query
+        type: string
+        format: date-time
+      - name: payTimeEnd
+        description: 支付结束日期模糊查询
+        in: query
+        type: string
+        format: date-time
+      responses:
+        '200':
+          description: 返回车牌缴费列表
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PayOrderInfo'
+
+  /merchant/car/payinfo/{id}:
+    get:
+      tags:
+      - 停车统计
+      summary: 停车缴费详情
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        description: 缴费明细id
+        in: path
+        type: String
+        required: true
+      responses:
+        '200':
+          description: 返回停车缴费详情
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              data:
+                description: 缴费详情
+                $ref: '#/definitions/PayOrderInfo'
+
+  /merchant/car/list:
+    get:
+      tags:
+      - 停车统计
+      summary: 车牌统计列表查询
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: plateNo
+        description: 车牌号模糊查询
+        in: query
+        type: string
+      responses:
+          '200':
+            description: 返回车牌统计列表
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/PlateNoInfo'
+
+  /merchant/car/infolist:
+    get:
+      tags:
+      - 停车统计
+      summary: 车牌所有缴费列表查询
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: plateNo
+        description: 车牌号查询
+        in: query
+        type: string
+      responses:
+        '200':
+          description: 返回停车统计缴费详情
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              data:
+                description: 菜单信息
+                $ref: '#/definitions/PayOrderInfo'
+
+  /merchant/Advertisement/list:
+    get:
+      tags:
+      - 营销管理
+      summary: 获取广告模板列表
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: 返回广告模板列表
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Advertisement'
+
+  /merchant/Advertisement/info/{id}:
+    get:
+      tags:
+      - 营销管理
+      summary: 获取广告模板详情
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        description: 广告模板id
+        in: path
+        type: String
+        required: true
+      responses:
+        '200':
+          description: 返回广告模板信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              data:
+                description: 菜单信息
+                $ref: '#/definitions/Advertisement'
+  /merchant/Advertisement/add:
+    post:
+      tags:
+      - 营销管理
+      summary: 添加广告模板
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 广告模板对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/AdvertisementSave'
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+  /merchant/Advertisement/update:
+    patch:
+      tags:
+      - 营销管理
+      summary: 修改广告模板
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 广告模板对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/AdvertisementEdit'
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+
+  /merchant/Advertisement/delete/{id}:
+    delete:
+      tags:
+      - 营销管理
+      summary: 广告模板删除
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        description: 广告模板id
+        in: path
+        type: String
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+
+  /merchant/Advertisement/category/list:
+    get:
+      tags:
+      - 营销管理
+      summary: 获取广告类型列表
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: 返回广告类型列表
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AdvertisementCategory'
+
+  /merchant/Advertisement/category/info/{id}:
+    get:
+      tags:
+      - 营销管理
+      summary: 获取广告类型详情
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        description: 广告类型id
+        in: path
+        type: String
+        required: true
+      responses:
+        '200':
+          description: 返回广告类型信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              data:
+                description: 菜单信息
+                $ref: '#/definitions/AdvertisementCategory'
+  /merchant/Advertisement/category/add:
+    post:
+      tags:
+      - 营销管理
+      summary: 添加广告类型
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 广告类型对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/AdvertisementCategorySave'
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+  /merchant/Advertisement/category/update:
+    patch:
+      tags:
+      - 营销管理
+      summary: 修改广告类型
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 广告类型对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/AdvertisementCategoryEdit'
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+  /merchant/Advertisement/category/delete/{id}:
+    delete:
+      tags:
+      - 营销管理
+      summary: 广告类型删除
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        description: 广告类型id
+        in: path
+        type: String
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+
+  /sys/util/upload:
+    post:
+      tags:
+      - 工具接口
+      summary: 文件上传
+      produces:
+      - application/json
+      parameters:
+      - name: file
+        description: 文件
+        in: path
+        type: String
+        format: multipartFile
+        required: true
+      responses:
+        '200':
+          description: 返回广告类型信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              data:
+                description: 文件存储url
+                type: string
+
+  /sys/util/showimg:
+    post:
+      tags:
+      - 工具接口
+      summary: 图片展示
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 文件显示参数
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/ImgShowEntity'
+        required: true
+
+  /sys/util/showqrcode:
+    get:
+      tags:
+      - 工具接口
+      summary: 二维码显示
+      produces:
+      - application/json
+      parameters:
+      - name: url
+        description: 二维码URL
+        in: path
+        type: String
+        required: true
+
+  /user/order/payinfo:
+    get:
+      tags:
+      - 用户接口
+      summary: 停车缴费费用查询
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 车牌号和车场信息
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/CarInfo'
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+
+  /user/order/pay:
+    post:
+      tags:
+      - 用户接口
+      summary: 停车费用支付
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 停车费用参数
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/PayOrderInfo'
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+
+  /merchant/setting/info:
+    get:
+      tags:
+      - 商户基本配置
+      summary: 获取当前商户的配置详情
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: 返回当前商户的配置详情
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              data:
+                description: 菜单信息
+                $ref: '#/definitions/MerSettingEntity'
+
+  /merchant/setting/update:
+    patch:
+      tags:
+      - 商户基本配置
+      summary: 修改商户基本配置
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        description: 商户基本配置对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/MerSettingEntityUpdate'
+        required: true
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/R'
+
+#定义数据模型
+definitions:
+  R:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      msg:
+        description: 失败原因
+        type: string
+
+  PlateNoInfoList:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/PlateNoInfo'
+
+  PlateNoInfo:
+    type: object
+    properties:
+      id:
+        description: 主键id
+        type: string
+      merId:
+        description: 商户id
+        type: string
+      openId:
+        description: openId
+        type: string
+      nickName:
+        description: 昵称
+        type: string
+      plateNo:
+        description: 车牌号
+        type: string
+
+  PayOrderInfoList:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/PayOrderInfo'
+
+  PayOrderInfo:
+    type: object
+    properties:
+      id:
+        description: 主键id
+        type: string
+      merId:
+        description: 商户id
+        type: string
+      openId:
+        description: openId
+        type: string
+      nickName:
+        description: 昵称
+        type: string
+      plateNo:
+        description: 车牌号
+        type: string
+      parkId:
+        description: 停车场id
+        type: integer
+        format: int64
+      orderNo:
+        description: 订单号
+        type: string
+      parkName:
+        description: 停车场名称
+        type: string
+      entryTime:
+        description: 入场时间
+        type: string
+        format: date-time
+      payTime:
+        description: 支付时间
+        type: string
+        format: date-time
+      elapsedTime:
+        description: 停留时间
+        type: integer
+        format: int64
+      img:
+        description: 停车图片
+        type: string
+      payable:
+        description: 支付金额
+        type: integer
+      delayTime:
+        description: 延迟出场时间
+        type: integer
+
+  PayOrder:
+    type: object
+    properties:
+      merId:
+        description: 商户id
+        type: string
+      plateNo:
+        description: 车牌号
+        type: string
+      orderNo:
+        description: 订单号
+        type: string
+      payTime:
+        description: 支付时间
+        type: string
+        format: date-time
+      payable:
+        description: 支付金额
+        type: integer
+
+
+
+  Advertisement:
+    type: object
+    properties:
+      id:
+        description: 广告模板id
+        type: string
+      templateId:
+        description: 广告模板类型id
+        type: string
+      tempCategoryCode:
+        description: 广告模板类型代码
+        type: string
+      templateNo:
+        description: 广告模板代码
+        type: string
+      templateName:
+        description: 广告模板名称
+        type: string
+      templateUrl:
+        description: 广告模板url
+        type: string
+      templateImg:
+        description: 广告模板图片
+        type: string
+      templateStatus:
+        description: 广告模板状态
+        type: integer
+        format: int64
+      tempCategoryDesc:
+        description: 广告模板类型名称
+        type: string
+      note:
+        description: 广告模板备注
+        type: string
+      createBy:
+        description: 广告创建人
+        type: integer
+        format: int64
+      createTime:
+        description: 广告创建时间
+        type: string
+        format: date-time
+      lastUpdatedBy:
+        description: 广告最后更新人
+        type: integer
+        format: int64
+      lastUpdatedTime:
+        description: 广告最后更新时间
+        type: string
+        format: date-time
+
+  AdvertisementSave:
+    type: object
+    properties:
+      templateId:
+          description: 广告模板类型id
+          type: string
+      templateName:
+          description: 广告模板名称
+          type: string
+      templateUrl:
+          description: 广告模板url
+          type: string
+      templateImg:
+          description: 广告模板图片
+          type: string
+          format: string
+      tempCategoryCode:
+          description: 广告类型代码
+          type: string
+      note:
+          description: 广告模板备注
+          type: string
+
+
+  AdvertisementEdit:
+    type: object
+    properties:
+      id:
+        description: 广告模板id
+        type: string
+      templateId:
+        description: 广告模板类型id
+        type: string
+      templateName:
+        description: 广告模板名称
+        type: string
+      templateUrl:
+        description: 广告模板url
+        type: string
+      templateImg:
+        description: 广告模板图片
+        type: string
+      templateStatus:
+        description: 广告模板状态
+        type: integer
+        format: int64
+      note:
+        description: 广告模板备注
+        type: string
+
+  AdvertisementCategory:
+    type: object
+    properties:
+      id:
+        description: 广告类型id
+        type: string
+      tempCategoryCode:
+        description: 广告类型代码
+        type: string
+      tempCategoryDesc:
+        description: 广告类型名称
+        type: string
+      templateStatus:
+        description: 广告类型状态
+        type: integer
+        format: int64
+      createBy:
+        description: 广告创建人
+        type: integer
+        format: int64
+      createTime:
+        description: 广告创建时间
+        type: string
+        format: date-time
+      lastUpdatedBy:
+        description: 广告最后更新人
+        type: integer
+        format: int64
+      lastUpdatedTime:
+        description: 广告最后更新时间
+        type: string
+        format: date-time
+
+  AdvertisementCategorySave:
+    type: object
+    properties:
+      tempCategoryDesc:
+        description: 广告类型名称
+        type: string
+
+  AdvertisementCategoryEdit:
+    type: object
+    properties:
+      id:
+        description: 广告类型id
+        type: string
+      tempCategoryDesc:
+        description: 广告类型名称
+        type: string
+      templateStatus:
+        description: 广告类型状态
+        type: integer
+        format: int64
+
+  CarInfo:
+    type: object
+    properties:
+      plateNo:
+        description: 广告类型名称
+        type: string
+      parkId:
+        description: 广告类型状态
+        type: integer
+        format: int64
+
+  MerSettingEntity:
+    type: object
+    properties:
+      id:
+        description: 主键id
+        type: string
+      merId:
+        description: 商户id
+        type: integer
+        format: int64
+      merLogo:
+        description: 商户logo
+        type: string
+      countdownTime:
+        description: 延迟出场时间
+        type: integer
+        format: int64
+      attr1Url:
+        description: 首页地址URL
+        type: string
+      attr2Url:
+        description: 无牌车入口URL
+        type: string
+      attr3Url:
+        description: 无牌车出口URL
+        type: string
+      attr4Url:
+        description: 备用URL4
+        type: string
+      attr5Url:
+        description: 备用URL5
+        type: string
+      createBy:
+        description: 创建人
+        type: integer
+        format: int64
+      createTime:
+        description: 创建时间
+        type: string
+        format: date-time
+      lastUpdatedBy:
+        description: 最后更新人
+        type: integer
+        format: int64
+      lastUpdatedTime:
+        description: 最后更新时间
+        type: string
+        format: date-time
+
+  MerSettingEntityUpdate:
+    type: object
+    properties:
+      id:
+        description: 主键id
+        type: string
+      merLogo:
+        description: 商户logo
+        type: string
+      countdownTime:
+        description: 延迟出场时间
+        type: integer
+        format: int64
+      attr1Url:
+        description: 首页地址URL
+        type: string
+      attr2Url:
+        description: 无牌车入口URL
+        type: string
+      attr3Url:
+        description: 无牌车出口URL
+        type: string
+      attr4Url:
+        description: 备用URL4
+        type: string
+      attr5Url:
+        description: 备用URL5
+        type: string
+
+  ImgShowEntity:
+    type: object
+    properties:
+      filename:
+        description: 文件相对路径
+        type: string
+

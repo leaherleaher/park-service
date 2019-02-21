@@ -1,0 +1,51 @@
+.QrcodeAct{ padding: 60px;}
+.QrcodeItem{ display: table; line-height: 40px; padding: 10px 0}
+.QrcodeItem .cell{ display: table-cell; vertical-align: middle; } 
+.QrcodeItem .name{ width: 130px; text-align: right; padding:0 15px; vertical-align: top;}
+.textIn input{ width: 233px; height: 20px; line-height: 20px; padding: 10px; border: 1px solid #dfdfdf}
+.radioIn{}
+.helpIcon{ width: 20px; height: 20px; background: url("../images/qrcode/helpIcon.png") no-repeat; display: inline-block; cursor: pointer;}
+
+.addCoupon,.addCoupon a{ color: #ff8000; display: inline-block; cursor: pointer;}
+.coupon-choose{ position: absolute; z-index: 2; width: 98px; border: 1px solid #b5b5b5; background-color: #fff; margin:-20px 0 0 80px; display: none;}
+.coupon-choose a{ height: 28px; line-height: 28px; text-align: center; color: #666; display: block;}
+.coupon-choose a:hover{ background-color: #e5e5e5;}
+.coupon-choose a:not(:last-child){ border-bottom: 1px solid #b5b5b5;}
+.addEx{ display: inline-block; margin-left: 50px; color: #999;}
+.couList ul{ overflow: hidden; padding: 10px 0 0; margin-bottom:-10px; width: 420px;}
+.couList li{ height: 26px; line-height: 26px; color: #fff; padding: 0 30px 0 10px; background-color: #ff8000; float:left; margin:0 10px 10px 0; position: relative;}
+.couList li span{ content: ""; width: 8px; height: 8px; background: url("../images/qrcode/store-close.png"); position: absolute; right: 10px; top: 50%; margin-top: -4px; cursor: pointer; display: block; color: #fff; font-family: arial}
+
+.date input{ display: inline-block; width: 93.5px;}
+.dateFg{ margin: 0 5px;}
+.QrcodeAct_btn{ padding-left: 160px;}
+
+.ts2{ position: relative; float: left; top: 0; }
+.ts2 a{ background: none; width: auto; height: auto; color: #ff8000;}
+.ts2 .help_show{ top: 58px; left: 0; line-height: 22px; padding: 20px;}
+.ts2 .helpIcon{ margin:11px 15px; float: left; }
+
+.couponChooseBox{ padding: 0 30px;}
+.couponChooseBox .RightCon_first li input[type="text"]{ width: 130px;}
+.couponChooseBox table th:not(:first-child),.couponChooseBox table td:not(:first-child){ text-align: center;}
+.couponChooseBox table td{ height: 46px;}
+.couponChooseBox table th{ height: 30px;}
+.couponChooseBox table th:first-child,.couponChooseBox table td:first-child{ padding:0 30px; width: 50px;}
+.couponChooseBox .checkWrap li{ line-height: 20px; float: none; padding: 0;}
+.couponChooseBox .tc_btn{ padding: 50px 0}
+.couponChooseBox .tc_btn input{ width: 100px;}
+
+.tc-text{ text-align: center; padding: 30px 0;}
+.couponChooseBox .tc_btn2{ padding: 0;}
+
+.select-vipcard.select .input_elem{width:218px; height: 20px; padding: 10px 25px 10px 10px}
+.select-vipcard.select .selectbox-wrapper{width:253px; top: 40px;}
+.select-vipcard.select .selectbox-wrapper ul li{ text-indent: 10px;}
+
+.filePic2{ width: 86px; height: 86px; position: relative;}
+.filePic2 input + label,.filePic2 input + label:hover{ width: 86px; height: 86px; background: #eee url("../images/qrcode/jia.png") no-repeat center center; border: 1px solid #ddd; padding: 0;}
+.filePic2 input + label:hover{ border:1px solid #5a7da0}
+.filePic2>.img{ position: absolute; left: 1px; top: 1px; width: 86px; height: 86px;}
+.filePic2>.img>img{ display: block; width: 100%; height: 100%;}
+
+.PicSize{ color: #999; margin-left: 20px;}

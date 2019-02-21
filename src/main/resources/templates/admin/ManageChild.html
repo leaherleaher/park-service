@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>营销管理</title>
+    <link href="/admin/css/reset.css" type="text/css" rel="stylesheet"/>
+    <link href="/admin/css/layout.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/admin/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/admin/js/vue.js"></script>
+    <!--vue-Element-->
+    <link href="/element/index.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/element/index.js"></script>
+    <style type="text/css">
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<section id="content" v-cloak>
+    <section id="boxRight" class="boxRight">
+        <div class="boxRight_tit f1 borderb">营销管理>模板类型>广告模板类型增添</div>
+        <article class="boxRightCon">
+            <ul class="sel_mod">
+                <li>
+                    <span class="name sel_th2">广告模板类型：</span>
+                    <div class='selectSet'>
+                        <select name="" id="select" v-model="updataMessage.templateId" @change='getValue'>
+                            <!-- <option value="-1">--请选择--</option> -->
+                            <option value="0" v-for='(option,index) in options' :key='option.id' :value='option.id'
+                                    :selected="option.id==updataMessage.templateId ? true : false">
+                                {{option.tempCategoryDesc}}
+                            </option>
+                        </select>
+                    </div>
+                    <span style></span>
+                </li>
+                <li>
+                    <span class="name sel_th2">广告banner：</span>
+                    <div class="selectionDisplay" id="preview">
+                        <img :src="imgUrl" alt="">
+                    </div>
+                    <div class="formInlineBlock jb_btn filePic">
+                        <input @change="upImg($event,'front')" name="file" type="file" id="filepic"
+                               accept="image/png, image/jpeg, image/gif, image/jpg"/>
+                        <label for="filepic" class="changeColor">选择图片</label>
+                    </div>
+                </li>
+                <li>
+                    <span class="name sel_th2">模板名称：</span>
+                    <span class="radioBox"><input name="radio" id="radio3" class="write" checked
+                                                  v-model='updataMessage.templateName'/></span>
+                </li>
+                <li>
+                    <span class="name sel_th2">跳转链接：</span>
+                    <span class="radioBox"><input name="radio" id="radio3" class="write" checked
+                                                  v-model='updataMessage.templateUrl'/></span>
+                </li>
+                <li>
+                    <span class="name sel_th2">状态：</span>
+                    <span class="radioBox"><input value="1" name="radio" type="radio" id="radio1" checked="checked"
+                                                  v-model='updataMessage.templateStatus'/><label for="radio1">启用</label></span>
+                    <span class="radioBox"><input value="0" name="radio" type="radio" id="radio2"
+                                                  v-model='updataMessage.templateStatus'/><label for="radio2">禁用</label></span>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </article>
+        <div class="vip_btn center">
+            <div class="btn fabu_btn" v-if='show1'><a @click='save'>保存</a></div>
+            <div class="btn fabu_btn" v-if='show2'><a @click='updatas'>更新</a></div>
+            <!--<div class="btn fabu_btn" v-if='show3'><a @click='removes'>删除</a></div>-->
+            <!--<div class="btn save_btn"><a class='close'>取消</a></div>-->
+        </div>
+    </section>
+</section>
+<script type='text/javascript'>
+    parent.$('#myContent').css('height', parent.$('.content').height())
+    new Vue({
+        el: '#content',
+        data() {
+            return {
+                show1: false,
+                show2: false,
+                show3: false,
+                options: [],
+                everyData: [],
+                newSel: [],
+                changeGray: '',
+                type: true,
+                add: [],
+                stora: {},
+                remove: {},
+                updata: {},
+                id: '',
+                Img: '',
+                formData: new FormData(),
+                updataMessage: {
+                    templateId: "",
+                    templateName: "",
+                    templateUrl: "",
+                    templateImg: "",
+                    templateStatus: "",
+                    tempCategoryCode: "",
+                    note: "",
+                },
+                imgUrl: ''
+            }
+        },
+        methods: {
+            //下拉框选择事件
+            getValue() {
+                var that = this;
+                //判断该模板是否已经存在 并且有效
+                $.ajax({
+                    url: '/merchant/Advertisement/check/'+that.updataMessage.templateId,
+                    type: 'get',
+                    success: function (res) {
+                        if(res.data != '0'){
+                            that.$message({
+                                showClose: true,
+                                message: '您选中的模板已存在,请退回主页面进行编辑',
+                                type: 'warn'
+                            });
+                        }
+                    },
+                    error: function () {
+                        that.$message({
+                            showClose: true,
+                            message: '请求失败',
+                            type: 'error'
+                        });
+                    }
+
+                });
+            },
+            save() {
+                var that = this;
+                this.options.forEach(function (val, index, arr) {
+                    if (val.id == that.updataMessage.templateId) {
+                        that.updataMessage.templateId = val.id;
+                        that.updataMessage.tempCategoryCode = val.tempCategoryCode;
+                    }
+                });
+
+                var params = JSON.stringify(this.updataMessage)
+                $.ajax({
+                    url: '/merchant/Advertisement/add',
+                    type: 'post',
+                    contentType: 'application/json;charset=uft-8',
+                    data: params,
+                    success: function (params) {
+                        that.add = params
+                        if (params.code == -2) {
+                            that.$message({
+                                showClose: true,
+                                message: '有效模板已存在',
+                                type: 'error'
+                            });
+                        } else {
+                            that.$alert('保存成功', '提示', {
+                                confirmButtonText: '确定',
+                                callback: function () {
+                                    window.location.href = '/merchant/market/manage'
+                                }
+                            });
+                        }
+
+                    },
+                    error: function () {
+                        that.$message({
+                            showClose: true,
+                            message: '保存失败',
+                            type: 'error'
+                        });
+                    }
+                })
+            }
+            ,
+            updatas() {
+                var that = this;
+                var paramData = this.updataMessage;
+                var params = JSON.stringify(paramData)
+                $.ajax({
+                    url: '/merchant/Advertisement/update',
+                    type: 'patch',
+                    contentType: 'application/json;charset=uft-8',
+                    data: params,
+                    success: function (res) {
+                        if (res.code == -2) {
+                            that.$message({
+                                showClose: true,
+                                message: '有效模板已存在',
+                                type: 'error'
+                            });
+                        } else if (res.code == -1) {
+                            that.$message({
+                                showClose: true,
+                                message: '数据更新失败',
+                                type: 'error'
+                            });
+                        }
+                        else {
+                            that.$message({
+                                showClose: true,
+                                message: '更新成功',
+                                type: 'success'
+                            });
+                            window.location.href = '/merchant/market/manage'
+                        }
+                    },
+                    error: function () {
+                        that.$message({
+                            showClose: true,
+                            message: '更新失败',
+                            type: 'error'
+                        });
+                    }
+                });
+            }
+            ,
+            ManageType() {
+                if (this.type === true) {
+                    this.type = false
+                } else {
+                    this.type = true
+                }
+            }
+            ,
+            change(num) {
+                this.changeGray = num
+            }
+            ,
+            upImg($event, type) {
+                var that = this;
+                // 阻止默认事件
+                event.preventDefault();
+                var file = event.target.files[0];
+                var percentage;
+                if (file.size > 52428800) {
+                    return false;
+                } else if (file.size < 51200) {
+                    percentage = .7
+                } else if (file.size > 307200) {
+                    percentage = .4
+                } else {
+                    percentage = .5
+                }
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    var canvas = document.createElement('canvas');
+                    var cxt = canvas.getContext('2d');
+                    var img = new Image();
+                    img.src = this.result;
+                    img.onload = function () {
+                        var w = img.width;
+                        var h = img.height;
+                        canvas.width = w;
+                        canvas.height = h;
+                        cxt.drawImage(img, 0, 0, w, h);
+                        //获取base64路径
+                        var basestr = canvas.toDataURL(file.type, percentage);
+                        var text = window.atob(basestr.split(",")[1]);
+                        var buffer = new Uint8Array(text.length);
+                        for (var i = 0; i < text.length; i++) {
+                            buffer[i] = text.charCodeAt(i);
+                        }
+                        var blob = getBlob([buffer], file.type);
+                        that.formData.set('file', blob, file.name); //传文件到formdata
+                        var Form = that.formData;
+                        $.ajax({
+                            url: '/sys/util/upload',
+                            type: 'post',
+                            data: Form,
+                            contentType: false,
+                            processData: false,
+                            statusCode: {
+                                404: function () {
+                                    alert('网络错误')
+                                }
+                            },
+                            success: function (params) {
+                                //上传成功 将上传成功返回的图片相对路径进行绑定
+                                that.updataMessage.templateImg = params.data;
+                                that.Img = params.data
+                                let data1 = JSON.stringify({"filename": that.Img})
+                                //工具接口SHOWIMG
+                                var url = '/sys/util/showimg';
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('post', url, true);
+                                xhr.responseType = "blob";
+                                xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                                xhr.onload = function () {
+                                    if (this.status == 200) {
+                                        var blob = this.response;
+                                        that.imgUrl = window.URL.createObjectURL(blob)
+                                    }
+                                }
+                                xhr.send(data1);
+                            }
+                        })
+                    }
+                }
+            }
+            ,
+            blobToDataURL(blob, callback) {
+                var a = new FileReader();
+                a.onload = function (e) {
+                    callback(e.target.result);
+                }
+                a.readAsDataURL(blob);
+            }
+            ,
+            configData(index) {
+                var that = this;
+                var params = {
+                    'status': 1
+                }
+                $.ajax({
+                    url: '/merchant/Advertisement/category/list',
+                    type: 'get',
+                    contentType: 'application/json;charset=uft-8',
+                    data: params,
+                    statusCode: {
+                        404: function () {
+                            alert('网络错误')
+                        }
+                    },
+                    success: function (params) {
+                        that.options = params.data;
+                        // that.options.forEach(function (val, index, arr) {
+                        //     //that.newSel.push(val.tempCategoryDesc)
+                        //     that.everyData.push(arr[index])
+                        //     var data = that.everyData[index]
+                        //     var alldata = [
+                        //         that.updataMessage.templateId = data.id,
+                        //         that.updataMessage.tempCategoryCode = data.tempCategoryCode,
+                        //         //that.updataMessage.templateName = data.tempCategoryDesc,
+                        //         that.updataMessage.note = data.createTime
+                        //     ]
+                        // })
+                    }
+                })
+            }
+        },
+        created() {
+            this.configData()
+            var that = this;
+            var url = location.search
+            this.urlParams = url.split('?=')[1];
+            this.paramArr = this.urlParams.split("&");
+            this.id = this.paramArr[0];
+            this.opra = this.paramArr[1];
+            if (this.urlParams == "1") {
+                this.show1 = true
+            } else if (this.opra == 2) {
+                this.show2 = true
+                //如果是更新操作  初始化数据
+                $.ajax({
+                    url: '/merchant/Advertisement/info/' + this.id,
+                    type: 'get',
+                    success: function (res) {
+                        that.updataMessage = res.data;
+                        //this.Img = params.data
+                        var data1 = JSON.stringify({"filename": that.updataMessage.templateImg})
+                        //工具接口SHOWIMG
+                        var url = '/sys/util/showimg';
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('post', url, true);
+                        xhr.responseType = "blob";
+                        xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                        xhr.onload = function () {
+                            if (this.status == 200) {
+                                var blob = this.response;
+                                that.imgUrl = window.URL.createObjectURL(blob)
+                            }
+                        }
+                        xhr.send(data1);
+                    },
+                    error: function () {
+                        that.$message({
+                            showClose: true,
+                            message: '数据初始化失败',
+                            type: 'error'
+                        });
+                    }
+                });
+            }
+        }
+    })
+
+    /**
+     * 获取blob对象的兼容性写法
+     * @param buffer
+     * @param format
+     * @returns {*}
+     */
+    function getBlob(buffer, format) {
+        try {
+            return new Blob(buffer, {
+                type: format
+            });
+        } catch (e) {
+            var bb = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
+            buffer.forEach(function (buf) {
+                bb.append(buf);
+            });
+            return bb.getBlob(format);
+        }
+    }
+</script>
+</body>
+<style>
+    .nextselect {
+        font-size: 14px;
+    }
+
+    .nextselect1 {
+        background: #EEEEEE
+    }
+
+    .active {
+        background: #EEEEEE
+    }
+
+    .blockText {
+        display: block;
+        width: 130px;
+        height: 37.6px;
+        margin: auto;
+    }
+
+    .selectSet {
+        position: relative;
+        width: 159px;
+        height: 23.2px;
+    }
+
+    .selectSet > select {
+        width: 159px;
+        height: 23.2px;
+        text-align: center;
+        text-align-last: center;
+    }
+
+    .selectSet > select > option {
+        text-align: center
+    }
+
+    .boxRightCon {
+        display: flex;
+        justify-content: center;
+    }
+
+    .save_btn > a {
+        background: #DDDDDD
+    }
+
+    .write {
+        width: 312px;
+    }
+
+    .sel_mod > li {
+        display: flex;
+        margin: 0 0 48px 0;
+    }
+
+    .sel_mod > li:nth-child(2) {
+        margin: 0 0 75px 0;
+    }
+
+    .changeColor {
+        background: #169BD5 !important;
+    }
+
+    .name {
+        display: block;
+        width: 100px;
+    }
+
+    .photo {
+        display: block;
+        width: 300px;
+        height: 150px;
+        background: rgba(233, 233, 233, 0.6);
+        color: #A399A3;
+        text-align: center;
+        line-height: 150px;
+    }
+
+    .file {
+        display: inline-block;
+        background: #169BD5;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #FFFFFF;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+        text-align: center;
+        margin-left: 12px;
+        width: 100px;
+        height: 34px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+</style>
+</html>

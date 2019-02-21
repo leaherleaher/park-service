@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <script th:src="@{/Public/js/jquery-1.8.0.min.js}"></script>
+    <!--<script th:src="@{/layui/lay/modules/layer.js}"></script>-->
+</head>
+<body>
+<form th:action="@{/merchant/userLogin}" method="post" id="login">
+    <input type="hidden" name="username" id="username" th:value="${username}"/>
+    <input type="hidden" name="password" id="password" th:value="${password}"/>
+</form>
+</body>
+<script type="text/javascript">
+    $(function () {
+        /*layer.load(0, {shade: false});*/
+        $("#login").submit();
+    })
+</script>
+</html>

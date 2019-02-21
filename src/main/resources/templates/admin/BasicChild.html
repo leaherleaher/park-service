@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>基本配置</title>
+    <link href="/admin/css/reset.css" type="text/css" rel="stylesheet"/>
+    <link href="/admin/css/layout.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/admin/js/jquery-3.1.1.min.js"></script>
+    <script type='text/javascript' src='/admin/js/qrcode.min.js'></script>
+    <script type="text/javascript" src="/admin/js/vue.js"></script>
+    <!--vue-Element-->
+    <link href="/element/index.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/element/index.js"></script>
+    <style type="text/css">
+        [v-cloak] {
+            display:none !important;
+        }
+    </style>
+</head>
+<body>
+<section id="content" v-cloak>
+    <section id="boxRight" class="boxRight">
+        <div class="boxRight_tit f1 borderb">基本配置</div>
+        <div class="block">
+            <div class="borderc">
+                <h1>首页显示设置</h1>
+            </div>
+            <div class="middle-block">
+                <article class="boxRightCon">
+                    <ul class="sel_mod">
+                        <li>
+                            <span class="name sel_th2"></span>
+                            <div class="selectionDisplay" id="preview"><img :src="update.Imgshow" alt=""><span
+                                    class='logon' v-if='hides'>{{UserDetails.merLogo}}</span></div>
+                            <!--  -->
+                            <div class="formInlineBlock jb_btn filePic"><input @change="upImg($event,'front')"
+                                                                               name="file" type="file" id="filepic"
+                                                                               value=''
+                                                                               accept="image/png, image/jpeg, image/gif, image/jpg"/><label
+                                    for="filepic" class="changeColor">选择图片</label></div>
+                        </li>
+                        </li>
+                        <!-- <li class="None">
+                            <span>首页地址：</span><input id='text' type="text" value='http://www.baidu.com'>
+                            <span id='qrcode' :class="{'active':isChoose}" @click='imgScc'></span>
+                            <span>首页地址：</span><input type="text" :placeholder='UserDetails.attr1Url' v-model='InfoUpdate.attr1Url'>
+                            <span><img src="" alt="" :class="{'active':isChoose===1}" @click='imgScc(1)'/></span>
+                        </li>
+                        <li class="None">
+                            <span>无牌车入口：</span><input id='text' type="text" value='http://csdn.net'>
+                            <span id='qrcode' :class="{'active':isChoose===2}" @click='imgScc'></span>
+                            <span>无牌车入口：</span><input type="text" :placeholder='UserDetails.attr2Url' v-model='InfoUpdate.attr2Url'>
+                            <span><img src="" alt="" :class="{'active':isChoose===2}" @click='imgScc(2)'/></span>
+                        </li>
+                        <li class="None">
+                            <span>无牌车出口：</span><input id='text' type="text" value='http://github.com'>
+                            <span id='qrcode':class="{'active':isChoose===3}" @click='imgScc'></span>
+                            <span>无牌车出口：</span><input type="text" :placeholder='UserDetails.attr3Url' v-model='InfoUpdate.attr3Url'>
+                            <span><img src="" alt="" :class="{'active':isChoose===3}" @click='imgScc(3)'/></span>
+                        </li> -->
+                        <li v-for="(item,index) in imgList" class="None">
+                            <span>{{item.imgName}}</span>
+                            <input class="long" type="text" v-model="update[item.bindValue]" disabled/>
+                            <span><img :src="item.imgUrl" :class="{active: index===selectIndex}"
+                                       @click="select(index)"/></span>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </article>
+            </div>
+        </div>
+        <div class="block">
+            <div class="borderc">
+                <h1>倒计时设置</h1>
+            </div>
+            <div class="middle-block1">
+                <article class="boxRightCon">
+                    <ul class="sel_mod">
+                        <li class="None">
+                            <span>出场倒计时：</span><input class="short" type="number" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                     v-model='update.countdownTime'/>&nbsp&nbsp&nbsp<p>分钟前离场</p>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </article>
+            </div>
+        </div>
+        <div class="vip_btn center">
+            <div class="btn fabu_btn"><input name="button" type="button" value="保存" @click='saveUpdata'/></div>
+            <div class="btn save_btn"><input name="button" type="button" value="取消"/></div>
+        </div>
+    </section>
+</section>
+<script type="text/javascript">
+    parent.$('#myContent').css('height', parent.$('.content').height())
+    new Vue({
+        el: '#content',
+        data() {
+            return {
+                hides: true,
+                hide: false,
+                isChoose: this.isChoose,
+                changeGray: '',
+                type: false,
+                QRcode: '',
+                QRcodeshow: '',
+                UserDetails: [],
+                revisionUser: [],
+                Img: '',
+                formData: new FormData(),
+                update: {
+                    id: '',
+                    attr1Url: '',
+                    attr2Url: '',
+                    attr3Url: '',
+                    countdownTime: '',
+                    Imgshow: '',
+                    merLogo: ''
+                },
+                imgList: [],
+                selectIndex: undefined
+            }
+        },
+        methods: {
+            imgScc() {
+                this.isChoose = !this.isChoose
+            },
+            ManageType() {
+                if (this.type === false) {
+                    this.type = true
+                } else {
+                    this.type = false
+                }
+            },
+            change(num) {
+                this.changeGray = num
+            },
+            select(index) {
+                this.selectIndex = this.selectIndex === index ? undefined : index
+            },
+            saveUpdata() {
+                var that = this;
+                if(this.update.countdownTime < 0){
+                    that.$message({
+                        showClose: true,
+                        message: '出场倒计时不能为负数！',
+                        type: 'error'
+                    });
+                    return;
+                }
+                var params = JSON.stringify(this.update)
+                //商户基本配置UPDATE
+                $.ajax({
+                    url: '/merchant/setting/update',
+                    type: 'patch',
+                    contentType: 'application/json;charset=uft-8',
+                    data: params,
+                    statusCode: {
+                        404: function () {
+                            alert('网络错误')
+                        }
+                    },
+                    success:function(){
+                        //this.update = params
+                        that.$message({
+                            // showClose: true,
+                            message: '保存成功',
+                            type: 'success'
+                        });
+                        window.location.href = '/merchant/basic/manage'
+                    },error:function(){
+                        that.$message({
+                            showClose: true,
+                            message: '保存失败',
+                            type: 'error'
+                        });
+                    }
+                })
+            },
+            upImg($event, type) {
+                this.hides = false;
+                var that = this;
+                // 阻止默认事件
+                event.preventDefault();
+                var file = event.target.files[0];
+                var percentage;
+                if (file.size > 52428800) {
+                    return false;
+                } else if (file.size < 51200) {
+                    percentage = .7
+                } else if (file.size > 307200) {
+                    percentage = .4
+                } else {
+                    percentage = .5
+                }
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    var canvas = document.createElement('canvas');
+                    var cxt = canvas.getContext('2d');
+                    var img = new Image();
+                    img.src = this.result;
+                    img.onload = function () {
+                        var w = img.width;
+                        var h = img.height;
+                        canvas.width = w;
+                        canvas.height = h;
+                        cxt.drawImage(img, 0, 0, w, h);
+                        //获取base64路径
+                        var basestr = canvas.toDataURL(file.type, percentage);
+                        var text = window.atob(basestr.split(",")[1]);
+                        var buffer = new Uint8Array(text.length);
+                        for (var i = 0; i < text.length; i++) {
+                            buffer[i] = text.charCodeAt(i);
+                        }
+                        var blob = getBlob([buffer], file.type);
+                        that.formData.set('file', blob, file.name); //传文件到formdata
+                        var Form = that.formData;
+                        $.ajax({
+                            url: '/sys/util/upload',
+                            type: 'post',
+                            data: Form,
+                            contentType: false,
+                            processData: false,
+                            statusCode: {
+                                404: function () {
+                                    alert('网络错误')
+                                }
+                            },
+                            success: function (params) {
+                                that.update.merLogo = params.data;
+                                that.Img = params.data
+                                let data1 = JSON.stringify({"filename": that.Img})
+                                //工具接口SHOWIMG
+                                var url = '/sys/util/showimg';
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('post', url, true);
+                                xhr.responseType = "blob";
+                                xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                                xhr.onload = function () {
+                                    if (this.status == 200) {
+                                        var blob = this.response;
+                                        that.update.Imgshow = window.URL.createObjectURL(blob)
+                                    }
+                                }
+                                xhr.send(data1);
+                            }
+                        })
+                    }
+                }
+            },
+        },
+        created() {
+            this.hides = false;
+            var that = this;
+            var params = {}
+            var url = location.search
+            var merId = url.split('?=')[1]
+            //商户基本配置INFO
+            $.ajax({
+                url: '/merchant/setting/info',
+                type: 'get',
+                data: {
+                    "merId": merId
+                },
+                statusCode: {
+                    404: function () {
+                        alert('网络错误')
+                    }
+                },
+                success: function (params) {
+                    that.UserDetails = params.data;
+                    that.update.id = that.UserDetails.id;
+                    that.imgList = [
+                        {
+                            imgName: '首页地址：',
+                            bindValue: 'attr1Url',
+                            imgUrl:'/sys/util/showqrcode?url='+that.UserDetails.attr1Url
+                        }
+                        // {
+                        //     imgName: '无牌车入口',
+                        //     bindValue: 'attr2Url',
+                        //     imgUrl:'/sys/util/showqrcode?url='+that.UserDetails.attr2Url
+                        // },
+                        // {
+                        //     imgName: '无牌车出口',
+                        //     bindValue: 'attr3Url',
+                        //     imgUrl:'/sys/util/showqrcode?url='+that.UserDetails.attr3Url
+                        // }
+                    ];
+                    that.update.attr1Url = that.UserDetails.attr1Url;
+                    that.update.attr2Url = that.UserDetails.attr2Url;
+                    that.update.attr3Url = that.UserDetails.attr3Url;
+                    that.update.countdownTime = that.UserDetails.countdownTime;
+                    //that.Img = params.data
+                    let data1 = JSON.stringify({"filename": that.UserDetails.merLogo})
+                    //工具接口SHOWIMG
+                    var url = '/sys/util/showimg';
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('post', url, true);
+                    xhr.responseType = "blob";
+                    xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+                            var blob = this.response;
+                            that.update.Imgshow = window.URL.createObjectURL(blob)
+                        }
+                    }
+                    xhr.send(data1);
+                }
+            })
+        }
+    })
+
+    /**
+     * 获取blob对象的兼容性写法
+     * @param buffer
+     * @param format
+     * @returns {*}
+     */
+    function getBlob(buffer, format) {
+        try {
+            return new Blob(buffer, {
+                type: format
+            });
+        } catch (e) {
+            var bb = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
+            buffer.forEach(function (buf) {
+                bb.append(buf);
+            });
+            return bb.getBlob(format);
+        }
+    }
+</script>
+</body>
+<style>
+    .selectionDisplay{
+        width: 284px;
+        height: 144px;
+    }
+    .selectionDisplay>img{
+        width: 100%;
+        height: 100%;
+    }
+    .logon {
+        position: absolute;
+        top: 274px;
+        left: 368px;
+        width: 159px;
+        height: 95px;
+    }
+
+    #qrcode {
+        width: 30px;
+        height: 30px;
+        margin-top: 15px;
+        overflow: hidden;
+        margin-top: -3px;
+    }
+
+    .active {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    #qrcode img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .tire {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        margin: auto;
+        z-index: 999;
+    }
+
+    .blockTire {
+        position: absolute;
+        width: 404px;
+        height: 233px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 5px;
+        background: #FFFFFF
+    }
+
+    .headers {
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 5px 5px 0 0;
+        background: -webkit-linear-gradient(top, #169BD5, #78C3F3)
+    }
+
+    .headers:hover {
+        background: rgb(5, 112, 158)
+    }
+
+    .headers span {
+        position: absolute;
+        display: block;
+        width: 23px;
+        height: 23px;
+        right: 12px;
+        line-height: 46px;
+    }
+
+    .headers span > img {
+        width: 100%;
+        height: 100%;
+        transition: all .5s
+    }
+
+    .headers span > img:hover {
+        transform: rotateY(360deg);
+        transition: all .5s
+    }
+
+    .middles {
+        width: 100%;
+        height: 150px;
+        text-align: center;
+        line-height: 150px
+    }
+
+    .footers {
+        width: 100%;
+        height: 55px;
+        text-align: center;
+        line-height: 55px;
+        border-radius: 0 0 5px 5px;
+        background: #169BD5;
+    }
+
+    .footers a {
+        display: block;
+        width: 100%;
+        height: 55px;
+        color: #FFFFFF;
+    }
+
+    .footers a:hover {
+        background: rgb(5, 112, 158)
+    }
+
+    .nextselect {
+        font-size: 14px;
+    }
+
+    .active {
+        background: #EEEEEE
+    }
+
+    .blockText {
+        display: block;
+        width: 130px;
+        height: 37.6px;
+        margin: auto;
+    }
+
+    .block {
+        padding: 0 0 0 48px;
+    }
+
+    .None {
+        display: flex;
+        margin: 0 0 16px 0;
+    }
+
+    .None span {
+        display: block;
+        width: 120px;
+        text-align: right;
+    }
+
+    .None span:nth-of-type(2) {
+        width: 80px;
+        height: 80px;
+        left: 555px;
+    }
+
+    .None span:nth-of-type(2) img {
+        width: 80px;
+        height: 80px;
+        transform: scale(1);
+        transition: all ease 0.5s;
+         margin: -32px 0 0 25px;
+    }
+
+    .None span:nth-of-type(2) img.active {
+        transform: scale(1.5);
+        position: absolute;
+        z-index: 100;
+    }
+    .long{
+        width: 390px;
+        height: 18px;
+        border: 1px solid;
+    }
+    .short {
+        width: 66px;
+        height: 18px;
+        text-align: center;
+    }
+
+    input::-webkit-input-placeholder {
+        color: #000000;
+        text-align: center;
+        line-height: 18px;
+    }
+
+    h1 {
+        font-size: 14px;
+    }
+
+    .borderc {
+        padding: 10px 0 6px 0;
+        border-bottom: 1px solid #000000;
+        color: #000000;
+    }
+
+    .middle-block {
+        display: flex;
+        width: 100%;
+        height: 284px;
+        margin-top: 12px;
+        background: #F2F2F2;
+        border-radius: 6px;
+        align-items: center;
+    }
+
+    .middle-block1 {
+        width: 100%;
+        height: 100px;
+        margin-top: 12px;
+        background: #F2F2F2;
+        border-radius: 6px;
+    }
+
+    .sel_mod > li:first-child {
+        display: flex;
+        margin: 0 0 30px 0;
+    }
+
+    .sel_mod a {
+        line-height: 25px;
+    }
+
+    .changeColor {
+        background: #169BD5 !important;
+    }
+
+    .name {
+        display: block;
+        width: 100px;
+    }
+
+    .photo {
+        display: block;
+        width: 200px;
+        height: 100px;
+        background: rgba(233, 233, 233, 0.6);
+        color: #A399A3;
+        text-align: center;
+        line-height: 100px;
+    }
+
+    .file {
+        display: inline-block;
+        background: #169BD5;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #FFFFFF;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 25px;
+        text-align: center;
+        margin-left: 12px;
+        width: 75px;
+        height: 25px;
+        font-size: 12px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+</style>
+</html>

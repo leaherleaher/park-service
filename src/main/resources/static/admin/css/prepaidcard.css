@@ -1,0 +1,194 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/*预付卡*/
+a{ color:#333333}
+.Editorial{ padding-right:270px;}
+.Editorial_textarea{ padding:0 0 20px}
+.Editorial_textarea textarea,.Editorial_textarea .text{ border:1px solid #eaeaea; width:650px; height:80px; line-height:24px; padding:10px; margin-top:10px;}
+.sjjl_tc{ width:570px;}
+.sjjl_tc_con{ padding:30px; position:relative;}
+.sjjl_tc_con .tx{ position:absolute; right:44px; top:34px; width:107px; height:110px; display:block; border:1px solid #eaeaea; background:url(../images/sjjl_tx.jpg) no-repeat;}
+.sjjl_tc_con ul{ margin:0 160px 0 30px;}
+.sjjl_tc_con li{ color:#333; margin-bottom:10px; line-height:26px;}
+
+.add_filing{ padding:10px; margin-right:10px; overflow:hidden;}
+.add_filing ul{ width:105%; overflow:hidden; border-bottom:1px solid #eaeaea;}
+.add_filing li{  float:left; margin:0 50px 24px 3px; cursor:pointer; border:1px solid #eaeaea; position:relative;}
+.add_filing li.on{ border-color:#faab80;}
+.add_filing li .con code{ position:absolute;width:53px; height:53px; margin:3px 0 0 -70px; }
+.add_filing li .con2 code{transition:All 1s ease; -webkit-transition:All 0.6s ease;}
+.add_filing li .con2:hover code{ -webkit-transform:rotate(180deg);}
+.add_filing li .con{ width:401px; height:161px;}
+.add_filing li .con1 a,.add_filing li .con2 a{ display:block; color:#333; padding:50px 0 0 150px;}
+.add_filing li .con1{ font-size:24px; line-height:60px; }
+.add_filing li .con2{ font-size:18px; line-height:30px;}
+.add_filing li .show{}
+.add_filing li .hide{ display:none; position:absolute; top:0; right:0; background-color:#fff; z-index:10;}
+
+.leftcard{ overflow:hidden; float:left; width:183px; height:116px; background:#ededed; border:1px solid #eaeaea; border-radius:10px; margin:20px 15px 20px 20px; position:relative;}
+.leftcard:hover,.leftcard.on{ border-color:#ff8000}
+.leftcard .card img{ width:183px; height:116px; display:block; position:relative; z-index:10}
+.leftcard .logo{ width:53px; height:53px; background:#fff; border:1px solid #eaeaea; position:absolute; right:10px; top:14px;}
+.leftcard .logo img{ width:53px; height:53px;}
+.leftcard .num{ position:absolute; bottom:4px; line-height:24px; right:10px; color:#666}
+.leftcard .title{ position:absolute; top:12px; left:14px; font-size:16px; color:#333; padding-right:70px;}
+.leftcard .bm{ width:183px; display:block; line-height:116px; text-align:center; }
+.add_cardtext{ padding:18px 0; color:#666; line-height:30px;}
+.add_cardtext .t2{ font-size:18px;}
+.add_cardtext .t2 span{ margin-right:12px;}
+.add_link{ position:absolute; right:0; top:0; width:49px; border-left:1px solid #eaeaea; height:161px; overflow:hidden;}
+.add_link a{ font-size:16px; color:#333; text-align:center; display:block; padding:10px; line-height:30px; height:60px; border-bottom:1px solid #eaeaea;}
+.add_link a:hover{ background:#ff8000; color:#fff;}
+.add_number{ padding:30px 0 40px;}
+.add_number .org{ margin-right:88px;}
+.see_filing{ margin-right:110px;}
+.filing_vote{ border-bottom:1px solid #d6d6d6; overflow:hidden; padding:8px 0; margin-bottom:20px;}
+.filing_vote dl{ width:370px; height:30px; float:left;}
+.filing_vote dt{ float:left; padding:0 10px;}
+.filing_vote dd{ width:300px;}
+.cardinfo_list{ width:900px; overflow:hidden; margin-top:20px;}
+.cardinfo_box .leftcard{ margin:0 26px 20px 0;}
+.card_details{ border:1px solid #e0e0e0; padding:20px;}
+.card_details .card_detailstext{ padding:20px 60px;}
+.card_details .bot{ margin-top:15px;}
+.card_details .bot span{ margin-right:20px;}
+.card_detailstext{ line-height:30px; padding:0 10px 20px; margin-bottom:30px;}
+.card_detailstext span.jb_btn{ margin-left:120px;}
+.Pc_manageList ul{ width:105%;}
+.Pc_manageList li{ float:left; margin:0 30px 30px 0; width:290px;}
+.Pc_manageList li a{ display:block; border:1px solid #eaeaea; background:#fff; padding:23px 23px 10px;}
+.Pc_manageList li a:hover{ border-color:#faab80;}
+.Pc_manageList .leftcard,.Pc_manageList .leftcard .card img{ width:238px; height:151px; margin:0}
+.Pc_manageList .leftcard{ margin-bottom:10px;}
+.Pc_manageList li .text p{ color:#333; position:relative; line-height:30px;}
+.Pc_manageList li .text p span{ position:absolute; right:0}
+.cardsetup_tit{ position:relative; padding-left:28px; line-height:26px; margin:20px 0 10px;}
+.cardsetup_tit span.xh{ position:absolute; left:0; top:0; font-size:18px; color:#ff8000}
+.cardsetup_tit p.aa{ font-weight:bold}
+.card_mb{ border:1px solid #eaeaea;}
+.card_mb_tit{ border-bottom:1px solid #eaeaea; height:46px; line-height:46px;}
+.card_mb_tit .tit1select{ float:left; width:187px; height:46px; border-right:1px solid #eaeaea; margin:0}
+.card_mb_tit .tit1select .input_elem { width:172px !important; padding:0 0 0 15px; height:46px; background:#ff8000 url(../images/setup_sj.gif) no-repeat 90% center; color:#fff; font-size:18px; border:0}
+.card_mb_tit .tit1select .selectbox-wrapper{ width:185px; top:46px;}
+.card_mb_tit .tit1select .selectbox-wrapper li{width:175px !important; padding:0 0 0 10px; height:34px; line-height:34px !important}
+
+.card_mb_tit li{ float:left;}
+.card_mb_tit li a{ display:block; padding:0 33px; border-right:1px solid #eaeaea; text-align:center; color:#333;}
+.card_mb_tit li a:hover,.card_mb_tit li.on a{ background:#ffe1d1;}
+.card_mb_con{ padding:20px;}
+.card_mb_con .infor_text{ padding:10px 35px; line-height:30px;}
+.infor_text_btn{ padding-top:17px; height:39px;}
+.infor_text_btn a{ width:95px; height:37px; line-height:37px; background:#fff; color:#333; display:inline-block; margin-right:33px; border-radius:10px; border:1px solid #bbb; text-align:center; font-size:12px;}
+.infor_text_btn a:hover{ background:#ff8000; position:relative; color:#fff; text-align:center; font-size:14px; line-height:35px;}
+.upload_pic,.card_number{ padding-left:28px;}
+.upload_pic ul{ overflow:hidden;}
+.upload_pic li{ padding:8px 0 10px; height:150px;}
+.upload_pic .leftcard{ margin:10px 20px 0 0}
+.upload_votebtn{ padding:40px 0; float:left;}
+.fileline { width:118px; position:relative; height:30px; padding-bottom:10px; text-align:left}
+.fileline span.span { float:left; }
+.fileline .file { position:absolute; left:0; width:100%; top:0; height:28px; filter:alpha(opacity=0); opacity:0; cursor: pointer; padding:0 !important }
+.fileline .file2{ float:left; z-index:1; width:118px; height:28px; line-height:26px; background:url(../images/jbbtn_bg.gif) repeat-x; border:1px solid #e0e0e0; text-align:center; color:#333; cursor: pointer }
+.card_number { padding-bottom:20px;}
+.card_number input{ width:60px; margin-right:10px;}
+.card_number .ml{ margin-left:30px;}
+
+/* xiahoujun修改 */
+.tables{ border:1px #eaeaea solid; text-align:center}
+.center_table td,.center_table th{ text-align:center}
+.tables td.l,.center_table td.l{ text-align:left;}
+.tables th{ background:#e2e2e2; color:#333; padding:10px 10px 10px 18px; font-weight:normal; border-bottom:1px #eaeaea solid}
+.tables td{ font-size:12px; padding:12px 10px 14px 18px;border-bottom:1px #eaeaea solid}
+.tables tr.nm td{ padding:2px 10px; background:#EEEEEE}
+.tables td.sub_table{ padding:0px;}
+.card_info{ position:relative; padding-left:130px; color:#008000; width:60px;}
+.card_info img{ position:absolute; top:0px; left:0px; display:block}
+.sub_table table{ border-right:1px #eaeaea solid}
+.add_step h3{ font-size:16px; font-weight: normal; margin-bottom:10px; margin-top:30px; color:#000000}
+.add_step th,.add_step td { padding:10px 5px; font-weight:normal}
+.add_step .skin-minimal span{ margin-right:20px;}
+.add_step input.txt{ width:144px; height:28px; border:1px #eaeaea solid; padding:0px 5px; float:left; line-height:28px; border-right:none}
+.add_step .go{ height:30px; width:80px; float:left; display:block; background:#00a1ee ; text-align:center; line-height:30px; color:#FFFFFF; border:none; cursor:pointer; font-family:"microsoft yahei"; border-radius:3px;}
+.add_step .help{ float:left; margin-left:30px; position:relative;}
+.add_step .help a{ background:url(../images/help.png) no-repeat; width:16px; height:16px; display:block; position:relative; top:5px;}
+.help_show{ position:absolute; left:34px; top:-25px; border:1px #eaeaea solid; padding:10px; width:316px; font-size:12px; display:none}
+.help_show b{ position:absolute; background:url(../images/left_jt.gif) no-repeat; width:16px; height:15px; display:block; top:27px; left:-16px;}
+.select input{ border:1px #eaeaea solid}
+.add_step dl{ overflow:hidden; margin:10px;}
+.add_step dt{ float:left; width:200px; height:110px; display:block; border:1px #eaeaea solid; border-radius:10px; position:relative}
+.add_step dt img{ border-radius:10px;}
+.add_step dt .t1{ position:absolute; top:10px; left:10px;}
+.add_step dt .t2{ position:absolute; bottom:10px; right:10px;}
+.add_step dd{ float:left; margin-left:30px; padding-top:20px;}
+.faka .txt2{ height:28px; line-height:28px; border:1px #eaeaea solid; padding:0px 5px; width:144px; margin:0px 6px;}
+.faka i{ margin:0px 10px 0px 30px;}
+.tables .jia,.tables .jian{ width:30px; height:30px; display:block; float:left; border:1px #666666 solid; line-height:30px; text-align:center; font-size:20px }
+.tables .jia:hover,.tables .jian:hover{ color:#FFFFFF; background:#ff8000; border-color:#ff8000 }
+.tables input.nm{ width:60px; height:30px; line-height:30px; border:none; border-top:1px #666666 solid; border-bottom:1px #666666 solid; text-align:center; float:left;}
+.nm_box{ width:128px; margin:0 auto}
+.tables .js button{ width:160px; height:50px; background:#00a1ee ; text-align:center; line-height:50px; color:#FFFFFF; border:none; cursor:pointer; font-size:16px; font-family:"microsoft yahei"; display:block}
+.tables .js button:hover{ background:#028fd2 }
+.tables .js span{ margin-right:30px;}
+.tables .js i{ color:#ff8000; font-size:18px;}
+.tables tfoot td{ padding:0px 0px 0px 10px; font-size:14px; line-height:48px;  overflow:hidden}
+.add_cou h3,.look h3{ font-size:16px; font-weight:bold; margin-top:10px; line-height:30px; margin-bottom:10px;}
+.add_cou h3 span{ font-weight:normal; font-size:14px;}
+.member_list h3,.edit_info h3{ font-size:16px; font-weight:bold; margin-top:10px; line-height:30px; }
+.add_info{ border-bottom:1px #eaeaea solid; padding-bottom:20px; margin-top:8px;}
+.add_info th,.add_info td{ font-weight:normal; padding:10px 0px; height:24px; line-height:24px;}
+.add_info input,.add_txt{ height:28px; line-height:28px; padding:0px 4px; border:1px #eaeaea solid; width:160px;}
+.show_jf{ padding-bottom:20px; line-height:50px; padding-left:24px; margin-top:8px; border-bottom:1px #eaeaea solid; display:none}
+.show_jf span{ margin-left:30px;}
+.show_jf input,.show_zk input,.show_cj input{ height:28px; line-height:28px; border:1px #eaeaea solid; padding:0px 4px; width:78px;}
+.show_zk{ padding-left:25px; padding-bottom:30px; border-bottom:1px #eaeaea solid; display:none}
+.show_zk li{ line-height:50px; overflow:hidden}
+.show_zk li p{ float:left;margin-left:24px;}
+.show_zk li p.v1{ width:270px;}
+.show_zk li p span{ margin-left:30px;}
+.left24{ margin-left:24px;}
+.right30{ margin-right:30px;}
+.show_cj{ line-height:50px; padding:0px 0px 30px 24px; border-bottom:1px #eaeaea solid; display:none}
+.cj_list1,.cj_list2{ position:relative}
+.cj_list1 a.more,.cj_list2 a.more{ position:absolute; top:0px; left:320px;}
+.jb_btn{ position:relative; top:2px; margin-left:34px;}
+.member_info ul{ overflow:hidden; border-bottom:1px #eaeaea solid; padding-bottom:20px; line-height:40px; padding-top:10px;}
+.member_info li{ width:30%; float:left;}
+.top50{ margin-top:50px;}
+.mb_btn .jb_btn{ top:-31px; left:670px; width:92px;}
+.addre_box{ margin-top:10px; padding-bottom:20px; border-bottom:1px #eaeaea solid}
+.addre_box dl{line-height:50px; position:relative; padding-left:60px;}
+.addre_box dl *{ vertical-align:middle}
+.addre_box dt{ width:60px; position:absolute; top:0px; left:0px;}
+.addre_box input{ width:112px; height:28px; line-height:28px; border:1px  #eaeaea solid; padding:0px 4px; display:inline-block}
+.edit_info textarea{ width:700px; height:120px; padding:10px; line-height:22px; font-size:14px; border:1px #eaeaea solid;  margin-top:10px; margin-bottom:8px; color:#999999}
+.left300{ margin-left:290px;}
+.look ul{ overflow:hidden; padding-bottom:20px; border-bottom:1px #eaeaea solid}
+.look li{ width:45%; line-height:40px; float:left;}
+.look_card_box{ border:1px #eaeaea solid; border-radius:10px; width:200px; height:110px; display:block; float:left; position:relative; line-height:22px;}
+.look_card_box .tit{ position:absolute;top:10px; left:10px;}
+.look_card_box .nm{ position:absolute;bottom:10px; right:10px;}
+.look_card_box .line{ height:20px; width:200px; background:#eaeaea; position:absolute; left:0px; bottom:20px; display:block}
+.look_foot ul{ border:none}
+.look_foot li{ font-size:20px; line-height:80px;}
+.left10{ margin-left:10px;}
+.sels dl{ overflow:hidden; position:relative; padding-left:97px;}
+.sels dt{ position:absolute; top:0px; left:0px; }
+.sels dd span{ margin-right:30px; display:block; float:left;}
+.hd_box{ line-height:40px;}
+.hd_info ul{ overflow:hidden; line-height:40px;}
+.hd_info li{ width:50%; float:left;}
+.hd_info table{ width:100%;border-collapse:collapse; margin-top:20px;}
+.hd_info td{ line-height:50px; padding-left:80px; border:1px #eaeaea solid;}
+.card_show{ position:relative}
+.card_show span{ display:block}
+.card_show_box{ position:absolute; top:24px; left:0px; border:1px #eaeaea solid; box-shadow:0px 0px 3px 0px rgba(0,0,0,0.2); padding:10px; width:340px; background:#FFFFFF; border-radius:10px; z-index:10; display:none}
+.card_show_box dl{ overflow:hidden;}
+.card_show_box dt{ width:90px; float:left; text-align:right; padding-right:8px;}
+.card_show_box dd{ width:240px; float:left;}
+.yf_con{ padding:20px 20px 40px 20px; text-align:center}
+.sjjl_tc_con h3{ text-align:center; font-size:16px; font-weight:normal;}
+.yf_con .skin-minimal{ display:inline-block; margin-right:20px; margin-bottom:20px;}
+
+.RightCon_first li.org_btn2{ margin:-1px 0px 0px 10px;}
+.org_btn2 input{ background:#6892bc ; color:#fff; text-align:center;min-width:60px; padding:0px 8px; height:30px; line-height:30px;border:none;  cursor:pointer; display:inline-block; -webkit-transition:all 0.2s linear; border-radius:3px;}
+.org_btn2 input:hover{ background:#5a7da0 }

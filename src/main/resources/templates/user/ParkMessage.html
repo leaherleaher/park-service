@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport">
+    <title>智慧停车</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="/user/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/user/css/style.css">
+    <script src='/user/js/jquery.min.js'></script>
+    <script src="/user/js/vue.js"></script>
+    <!--vue-Element-->
+    <link href="/element/index.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/element/index.js"></script>
+
+    <script>
+        // class
+        !function (navigator) {
+            let userAgent = navigator.userAgent;
+            documentElement = document.documentElement;
+            if (userAgent.match(/micromessenger\/5/gi)) {
+                documentElement.className += " mobile wx_mobile wx_mobile_5";
+            } else if (userAgent.match(/micromessenger/gi)) {
+                documentElement.className += " mobile wx_mobile";
+            } else if (userAgent.match(/ucbrowser/gi)) {
+                documentElement.className += " mobile uc_mobile";
+            } else if (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())) {
+                documentElement.className += " mobile";
+            } else if (userAgent.toLowerCase().match(/msie/gi) && (parseFloat(userAgent.toLowerCase().match(/msie ([0-9]{1,}[\.0-9]{0,})/i)[1] || 999) < 9)) {
+                documentElement.className += " pc pc-ie pc-ie8";
+            } else if (userAgent.toLowerCase().match(/msie/gi) || navigator.msPointerEnabled || navigator.pointerEnabled) {
+                documentElement.className += " pc pc-ie";
+            } else {
+                documentElement.className += " pc";
+            }
+        }(navigator);
+        // meta
+        !function (userAgent) {
+            var screen_w = parseInt(window.screen.width),
+                scale = screen_w / 1242;
+            if (/Android (\d+\.\d+)/.test(userAgent)) {
+                var version = parseFloat(RegExp.$1);
+                document.write(version > 2.3 ? '<meta name="viewport" content="width=1242, minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">' : '<meta name="viewport" content="width=1242,target-densitydpi=device-dpi">');
+            } else {
+                document.write('<meta name="viewport" content="width=1242, user-scalable=no, target-densitydpi=device-dpi">');
+            }
+        }(navigator.userAgent);
+    </script>
+    <style type="text/css">
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<section id='sections' v-loading='loading'>
+    <div id='sections'>
+        <!-- <div class="carNum">粤B<Bspan class="dot"></Bspan>159987</div> -->
+        <div class="carNum">{{Park.plateNo}}</div>
+        <div class="stopCarMsg">
+            <ul>
+                <li>
+                    <div class="itemName">入场时间</div>
+                    <div class="itemText">{{Park.entryTime}}</div>
+                </li>
+                <li>
+                    <div class="itemName">停车时间</div>
+                    <div class="itemText">{{Park.elapsedTime|hours}}</div>
+                </li>
+                <li>
+                    <div class="itemName">停车费用</div>
+                    <div class="itemText"><span class="org">{{Park.payable/100}}</span>元</div>
+                </li>
+            </ul>
+        </div>
+        <div class="box">
+            <!--<div class="payWayList">
+                <ul>
+                    <li><input name="payWay" type="radio" id="payway1"><label for="payway1"><span class="payIcon icon1"></span>一网通支付</label></li>
+                    <li><input name="payWay" type="radio" id="payway2"><label for="payway2"><span class="payIcon icon2"></span>微信支付</label></li>
+                    <li><input name="payWay" type="radio" id="payway3"><label for="payway3"><span class="payIcon icon3"></span>支付宝支付</label></li>
+                </ul>
+            </div>-->
+            <div class="submitBtn orgbtn"><a class='Pay' @click='PaySub'>
+                <button id='change' type="submit" :disabled="isDisable">支付</button>
+            </a></div>
+        </div>
+    </div>
+</section>
+</body>
+<script type='text/javascript' th:inline="javascript">
+    var data = [[${data}]]
+    var plateId = [[${plateId}]]
+    var merId = [[${merId}]]
+    window.alert = function(name){
+        var iframe = document.createElement("IFRAME");
+        iframe.style.display="none";
+        iframe.setAttribute("src", 'data:text/plain,');
+        document.documentElement.appendChild(iframe);
+        window.frames[0].window.alert(name);
+        iframe.parentNode.removeChild(iframe);
+    };
+    new Vue({
+        el: '#sections',
+        data() {
+            return {
+                Park: {},
+                PayMes: {},
+                MSG: {
+                    plateNo: '',
+                    parkId: '',
+                    merId: ''
+                },
+                loading: true,
+                isDisable: false
+            }
+        },
+        methods: {
+            // PaySuccess.html
+            PaySub() {
+                var that = this;
+                that.isDisable = true;
+                var params = this.Park;
+                    $.ajax({
+                        url: '/user/order/pay',
+                        type: 'post',
+                        contentType: 'application/json;charset=uft-8',
+                        data: JSON.stringify(params),
+                        success: function (params) {
+                            window.location.href = params.data;
+                            that.isDisable = false;
+
+                        },
+                        error: function () {
+                            that.$message({
+                                showClose: true,
+                                message: '支付失败！',
+                                type: 'error'
+                            });
+                            that.isDisable = false;
+                        }
+                    })
+            }
+        },
+        created() {
+            this.Park = JSON.parse(data);
+            //this.Park.payable = 1;
+            //判断如果支付金额为0 则支付按钮灰显
+            if(this.Park.payable/100 == 0){
+                alert("停车时间还未产生支付金额，无需支付");
+                //$('#change').style.backgroundColor="#CCCCCC";
+                $('#change').css({'background-color':'#CCCCCC'});
+                $('#change').attr("disabled",true);
+            }
+            this.Park.plateNo = plateId;
+            this.Park.merId = merId;
+            this.loading = false;
+        },
+        filters:{
+            hours(val) {
+                return  val/60>=1?Math.floor(val/60)+"时"+val%60+"分":val+"分";
+            },
+            moneyFilter(val){
+                return val/100;
+            }
+        },
+    })
+</script>
+</html>

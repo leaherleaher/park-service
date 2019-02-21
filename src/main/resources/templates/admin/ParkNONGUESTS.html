@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>车牌停车详情</title>
+    <link href="/admin/css/reset.css" type="text/css" rel="stylesheet"/>
+    <link href="/admin/css/layout.css" type="text/css" rel="stylesheet"/>
+    <link href="/admin/laydate/laydate.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/admin/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/admin/js/vue.js"></script>
+    <!--vue-Element-->
+    <link href="/element/index.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/element/index.js"></script>
+
+    <style type="text/css">
+        [v-cloak] {
+            display:none !important;
+        }
+    </style>
+</head>
+<body class="myContent" >
+<section id="content" v-cloak>
+    <section id="boxRight" class="boxRight">
+        <div class="boxRight_tit f1 borderb">车牌管理>车牌列表查询</div>
+        <article class="boxRightCon">
+            <div class="CommonInput viplist_formlist viplist_formlist_1">
+                <ul>
+                    <li>
+                        <span class="name">支付时间：</span><input id='timeData' name="text" type="text" style="width:100px;" onclick="laydate()" @keyup.enter="Search"/>
+                    </li>
+                    <li>
+                        <span class="name">至</span><input id='timeData1' name="text" type="text" style="width:100px;" onclick="laydate()" @keyup.enter="Search"/>
+                    </li>
+                    <li>
+                        <div class="org_btn"><a @click='Search'>查询</a></div>
+                    </li>
+                </ul>
+            </div>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="commonTable commonTable4">
+                <tr>
+                    <th>序号</th>
+                    <th>车牌号</th>
+                    <th>OpenID</th>
+                    <th>昵称</th>
+                    <th>入场时间</th>
+                    <th>出场时间</th>
+                    <th>停车时间</th>
+                    <th>停车费</th>
+                    <!--<th>实收金额</th>-->
+                    <th>支付时间</th>
+                </tr>
+                <tr v-for='(item,index) in Park'>
+                    <td>{{index+1}}</td>
+                    <td>{{item.plateNo}}</td>
+                    <td>{{item.OpenId}}</td>
+                    <td>{{item.nickName}}</td>
+                    <td>{{item.entryTime}}</td>
+                    <td>{{item.outTime}}</td>
+                    <td>{{item.elapsedTime | hours}}</td>
+                    <td>{{item.payable | moneyFilter}}</td>
+                    <!--<td class="red">{{item.OfficialMoney}}</td>-->
+                    <td>{{item.orderTime}}</td>
+                </tr>
+            </table>
+            <div class="bg_f3 page page-bar">共 {{pages.totalCount}} 条数据
+                <ul class='movepage'>
+                    <li v-if="filter.currPage>1"><a @click="startpage()">首页</a></li>
+                    <li v-if="filter.currPage>1"><a @click="filter.currPage--">上一页</a></li>
+                    <li v-if="filter.currPage==1"><a class="banclick">上一页</a></li>
+                    <li v-for="index in indexs" :class="{ 'active': filter.currPage == index}">
+                    <a @click="btnClick(index)">{{index}}</a>
+                    </li>
+                    <li v-if="filter.currPage!=filter.totalPage"><a @click="filter.currPage++">下一页</a></li>
+                    <li v-if="filter.currPage == filter.totalPage"><a class="banclick">下一页</a></li>
+                    <li v-if="filter.currPage!=filter.totalPage"><a @click="endstart()">末页</a></li>
+                    <li><a>共 {{pages.totalPage}} 页</a></li>
+                </ul>
+            </div>
+        </article>
+    </section>
+</section>
+<script  type="text/javascript">
+    parent.$('#myContent').css('height', parent.$('.content').height())
+    new Vue({
+        el: '#content',
+        data(){
+            return{
+                filter:{
+                    totalPage: 2, //总页数
+                    currPage: 1, //当前页码
+                    pageSize: 6, //每页条数
+                    totalCount: '', //总计数
+                },
+                type: false,
+                changeGray: '',
+                filterSearch:{
+                    payTimeStart: '',
+                    payTimeEnd: ''
+                },
+                Park: [],
+                pages:{},
+                newId: [],
+            }
+        },
+        computed:{
+            indexs(){
+            let left = 1;
+            let right = this.filter.totalPage;
+            let ar = [];
+            if(this.filter.totalPage>= 5){
+            if(this.filter.currPage > 3 && this.filter.currPage < this.filter.totalPage-2){
+                left = this.filter.currPage - 2
+                right = this.filter.currPage + 2
+            }else{
+                if(this.filter.currPage<=3){
+                left = 1
+                right = 5.
+                }else{
+                right = this.filter.totalPage
+                left = this.filter.totalPage -4
+                }
+            }
+        }
+            this.filterSearch.page = this.filter.currPage
+            this.filterSearch.limit = 10
+            this.Search()
+            this.filterSearch
+            while (left <= right){
+                ar.push(left)
+                left ++
+                }
+            return ar
+        },
+        },
+        methods:{
+            Search(){
+                var that = this;
+                this.filterSearch.payTimeStart = $('#timeData').val()
+                this.filterSearch.payTimeEnd = $('#timeData1').val()
+                var url = location.search
+                this.id = url.split('?=')[1]
+                this.filterSearch.plateNo = this.id;
+                var params =this.filterSearch;
+                $.ajax({
+                    url: '/merchant/car/infolist',
+                    type: 'get',
+                    data: params,
+                success:function(params) {   //(data,textStatus)
+                    that.Park = params.page.list
+                    that.pages = params.page;
+                }
+            })
+            },
+            btnClick(index){//页码点击事件
+                if(index != this.filter.currPage){
+                    this.filter.currPage = index
+                }
+            },
+            startpage(){
+                this.filter.currPage = 1
+            },
+            endstart(){
+                this.filter.currPage = this.filter.totalPage
+            },
+            ManageType(){
+                if(this.type === false){
+                    this.type = true
+                }else{
+                    this.type = false
+                }
+            },
+            change(num){
+                this.changeGray = num
+            }
+        },
+        created(){
+            this.Search()
+        },
+        filters:{
+            hours(val) {
+                return  val/60>=1?Math.floor(val/60)+"时"+val%60+"分":val+"分";
+            },
+            moneyFilter(val){
+                return val/100;
+            }
+        },
+    })
+</script>
+</body>
+<script src="/admin/laydate/laydate.js"></script>
+<script>
+</script>
+<style>
+.nextselect{
+    font-size: 14px;
+}
+.active{
+    background: #EEEEEE
+}
+.blockText{
+    display: block;
+    width: 130px;
+    height: 37.6px;
+    margin: auto;
+}
+
+.block{
+    padding: 0 0 0 48px;
+}
+.None{
+    display: flex;
+    margin: 0 0 16px 0;
+}
+.None span{
+    display: block;
+    width: 100px;
+    text-align: right;
+}
+.None span:nth-of-type(2){
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 666px;
+}
+.None span:nth-of-type(2) img{
+    width: 100%;
+    height: 100%;
+    margin: -5px 0 0 0;
+}
+.short{
+    width: 66px;
+    height: 18px;
+    text-align: center;
+}
+input::-webkit-input-placeholder{
+    color: #000000;
+    text-align: center;
+    line-height: 18px;
+}
+h1{
+    font-size: 14px;
+}
+.borderc{
+    padding: 10px 0 6px 0;
+    border-bottom: 1px solid #000000;
+    color: #000000;
+}
+.middle-block{
+    width: 100%;
+    height: 266px;
+    margin-top: 12px;
+    background: #F2F2F2;
+    border-radius: 6px;
+}
+.middle-block1{
+    width: 100%;
+    height: 100px;
+    margin-top: 12px;
+    background: #F2F2F2;
+    border-radius: 6px;
+}
+.sel_mod>li:first-child{
+    display: flex;
+    margin: 0 0 30px 0;
+}
+.sel_mod a{
+    line-height: 25px;
+}
+.changeColor{
+    background: #169BD5 !important;
+}
+.name{
+    display: block;
+    width: 100px;
+    width: 70px;
+    text-align: center;
+}
+.photo{
+    display: block;
+    width: 200px;
+    height: 100px;
+    background: rgba(233,233,233,0.6);
+    color: #A399A3;
+    text-align: center;
+    line-height: 100px;
+}
+.file {
+    display: inline-block;
+    background: #169BD5;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 25px;
+    text-align: center;
+    margin-left: 12px;
+    width: 75px;
+    height: 25px;
+    font-size: 12px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.movepage{
+    float: right;
+    display: -webkit-inline-box;
+}
+ul,li{
+    margin: 0px;
+    padding: 0px;
+    }
+li{
+    list-style: none
+    }
+.page-bar li:first-child>a {
+    margin-left: 0px
+    }
+.page-bar a{
+    border: 1px solid #ddd;
+    text-decoration: none;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #000000;
+    cursor: pointer
+    }
+.page-bar a:hover{
+    background-color: #34495e;
+    }
+.page-bar a.banclick{
+    cursor:not-allowed;
+    }
+.page-bar .active a{
+    color: #FFFFFF;
+    cursor: default;
+    background-color: #34495e;
+    border-color: #34495e;
+    }
+.page-bar i{
+    font-style:normal;
+    color: #d44950;
+    margin: 0px 4px;
+    font-size: 12px;
+    }
+</style>
+</html>
